@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import tuturo.database.*;
 import tuturo.manager.UsersManager;
+import tuturo.othergui.AboutUsGUI;
+import tuturo.othergui.NotesSearchFile;
 
 /**
  *
@@ -41,27 +43,22 @@ public class StudentGUI extends javax.swing.JFrame {
         notesBtn = new javax.swing.JButton();
         communityBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
-        settingsBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         titlePanel = new javax.swing.JPanel();
         titleLbl = new javax.swing.JLabel();
         MainTabbedPane = new javax.swing.JTabbedPane();
         homeTab = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
+        homeSideBar = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton14 = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        searchTutorPane = new javax.swing.JScrollPane();
+        availableSessions = new javax.swing.JTable();
         notesTab = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jPanel10 = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jButton13 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         commTab = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -111,45 +108,55 @@ public class StudentGUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jCheckBox6 = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
+        aboutLbl = new javax.swing.JLabel();
+        aboutBtn = new javax.swing.JButton();
+        closePanel = new javax.swing.JPanel();
+        closeIcon1 = new javax.swing.JLabel();
+        settingsPanel = new javax.swing.JPanel();
+        settingsIcon = new javax.swing.JLabel();
+        logoutPanel = new javax.swing.JPanel();
+        logoutIcon1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Yu Gothic UI", 0, 10)); // NOI18N
         setName("mainFrame"); // NOI18N
+        setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-home.png"))); // NOI18N
         homeBtn.setText("Home");
+        homeBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         homeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeBtnActionPerformed(evt);
             }
         });
 
+        notesBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-notes.png"))); // NOI18N
         notesBtn.setText("Notes");
+        notesBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         notesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 notesBtnActionPerformed(evt);
             }
         });
 
+        communityBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-community.png"))); // NOI18N
         communityBtn.setText("Community");
+        communityBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         communityBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 communityBtnActionPerformed(evt);
             }
         });
 
+        profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-profile.png"))); // NOI18N
         profileBtn.setText("Profile");
+        profileBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileBtnActionPerformed(evt);
-            }
-        });
-
-        settingsBtn.setText("Settings");
-        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBtnActionPerformed(evt);
             }
         });
 
@@ -167,7 +174,6 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(studentSidePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(studentSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(notesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -186,9 +192,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addComponent(communityBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profileBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsBtn)
-                .addGap(495, 495, 495)
+                .addGap(532, 532, 532)
                 .addComponent(logoutBtn)
                 .addContainerGap())
         );
@@ -203,7 +207,8 @@ public class StudentGUI extends javax.swing.JFrame {
         });
 
         titleLbl.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        titleLbl.setText("Tuturo for Student");
+        titleLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon.png"))); // NOI18N
+        titleLbl.setText("Student");
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
@@ -211,7 +216,7 @@ public class StudentGUI extends javax.swing.JFrame {
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titleLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                .addComponent(titleLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         titlePanelLayout.setVerticalGroup(
@@ -225,7 +230,7 @@ public class StudentGUI extends javax.swing.JFrame {
         getContentPane().add(titlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 50));
 
         MainTabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        MainTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        MainTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
         MainTabbedPane.setToolTipText("");
 
         homeTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Home"));
@@ -239,49 +244,62 @@ public class StudentGUI extends javax.swing.JFrame {
 
         jButton14.setText("Find a Session");
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout homeSideBarLayout = new javax.swing.GroupLayout(homeSideBar);
+        homeSideBar.setLayout(homeSideBarLayout);
+        homeSideBarLayout.setHorizontalGroup(
+            homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homeSideBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        homeSideBarLayout.setVerticalGroup(
+            homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homeSideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addGap(59, 59, 59)
+                .addGap(137, 137, 137)
                 .addComponent(jButton10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton14)
-                .addContainerGap(437, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        availableSessions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        searchTutorPane.setViewportView(availableSessions);
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
         homeTabLayout.setHorizontalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(homeSideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+                .addComponent(searchTutorPane, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
                 .addContainerGap())
         );
         homeTabLayout.setVerticalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(homeSideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5)
+                .addComponent(searchTutorPane, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -289,80 +307,44 @@ public class StudentGUI extends javax.swing.JFrame {
 
         notesTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
+        jLabel7.setText("Notes");
 
-        jButton11.setText("Open");
+        jLabel13.setText("Open your Notes");
 
-        jButton12.setText("Delete");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Open");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
-        jLabel7.setText("Your Notes");
-
-        jButton13.setText("New");
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(59, 59, 59)
-                .addComponent(jButton13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton12)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jButton6.setText("Save");
 
         javax.swing.GroupLayout notesTabLayout = new javax.swing.GroupLayout(notesTab);
         notesTab.setLayout(notesTabLayout);
         notesTabLayout.setHorizontalGroup(
             notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(notesTabLayout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
                     .addGroup(notesTabLayout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                        .addGap(838, 838, 838))
+                    .addGroup(notesTabLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         notesTabLayout.setVerticalGroup(
             notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, notesTabLayout.createSequentialGroup()
-                .addContainerGap(158, Short.MAX_VALUE)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+            .addGroup(notesTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(44, 44, 44)
+                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jButton3))
+                .addContainerGap())
         );
 
         MainTabbedPane.addTab("", notesTab);
@@ -437,7 +419,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(commTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -584,7 +566,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(accIDLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(accIDHolder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         saveProfileBtn.setText("Save Changes");
@@ -697,11 +679,21 @@ public class StudentGUI extends javax.swing.JFrame {
 
         jButton2.setText("Save");
 
+        aboutLbl.setText("About");
+
+        aboutBtn.setText("About Us");
+        aboutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsTabLayout = new javax.swing.GroupLayout(settingsTab);
         settingsTab.setLayout(settingsTabLayout);
         settingsTabLayout.setHorizontalGroup(
             settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingsTabLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
                 .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton2)
                     .addComponent(jCheckBox4)
@@ -710,14 +702,12 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addComponent(jCheckBox5)
                     .addGroup(settingsTabLayout.createSequentialGroup()
                         .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel1)
+                            .addComponent(aboutLbl))
+                        .addGap(4, 4, 4)
+                        .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(settingsTabLayout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel1))
-                                .addGap(85, 85, 85))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsTabLayout.createSequentialGroup()
-                                .addGap(15, 15, 15)
                                 .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel12)
@@ -726,11 +716,12 @@ public class StudentGUI extends javax.swing.JFrame {
                                         .addComponent(jLabel5)
                                         .addComponent(jLabel4)
                                         .addComponent(jLabel2)))
-                                .addGap(18, 18, 18)))
-                        .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox6)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(860, Short.MAX_VALUE))
+                                .addGap(30, 30, 30)
+                                .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox6)
+                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(aboutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(873, 873, 873))
         );
         settingsTabLayout.setVerticalGroup(
             settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -763,22 +754,102 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(jCheckBox6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 346, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addGroup(settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(aboutLbl)
+                    .addComponent(aboutBtn))
+                .addGap(312, 312, 312)
                 .addComponent(jButton2)
-                .addGap(66, 66, 66))
+                .addContainerGap())
         );
 
         MainTabbedPane.addTab("", settingsTab);
 
         getContentPane().add(MainTabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 1100, 670));
 
+        closePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closePanelMouseClicked(evt);
+            }
+        });
+
+        closeIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        closeIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-close.png"))); // NOI18N
+
+        javax.swing.GroupLayout closePanelLayout = new javax.swing.GroupLayout(closePanel);
+        closePanel.setLayout(closePanelLayout);
+        closePanelLayout.setHorizontalGroup(
+            closePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(closePanelLayout.createSequentialGroup()
+                .addComponent(closeIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        closePanelLayout.setVerticalGroup(
+            closePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(closePanelLayout.createSequentialGroup()
+                .addComponent(closeIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(closePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 0, 30, 30));
+
+        settingsPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsPanelMouseClicked(evt);
+            }
+        });
+
+        settingsIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settingsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-settings.png"))); // NOI18N
+
+        javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
+        settingsPanel.setLayout(settingsPanelLayout);
+        settingsPanelLayout.setHorizontalGroup(
+            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(settingsIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        settingsPanelLayout.setVerticalGroup(
+            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(settingsIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        getContentPane().add(settingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 0, -1, -1));
+
+        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutPanelMouseClicked(evt);
+            }
+        });
+
+        logoutIcon1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        logoutIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-logout.png"))); // NOI18N
+        logoutIcon1.setText("Logout");
+
+        javax.swing.GroupLayout logoutPanelLayout = new javax.swing.GroupLayout(logoutPanel);
+        logoutPanel.setLayout(logoutPanelLayout);
+        logoutPanelLayout.setHorizontalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutPanelLayout.createSequentialGroup()
+                .addComponent(logoutIcon1)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        logoutPanelLayout.setVerticalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(logoutIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        getContentPane().add(logoutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 0, 60, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
 
     private void communityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communityBtnActionPerformed
         MainTabbedPane.setSelectedIndex(2);
@@ -795,10 +866,6 @@ public class StudentGUI extends javax.swing.JFrame {
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
         MainTabbedPane.setSelectedIndex(3);
     }//GEN-LAST:event_profileBtnActionPerformed
-
-    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
-        MainTabbedPane.setSelectedIndex(4);
-    }//GEN-LAST:event_settingsBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -849,6 +916,32 @@ public class StudentGUI extends javax.swing.JFrame {
         discardProfileBtn.setEnabled(false);
     }//GEN-LAST:event_saveProfileBtnActionPerformed
 
+    private void closePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closePanelMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_closePanelMouseClicked
+
+    private void settingsPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsPanelMouseClicked
+        MainTabbedPane.setSelectedIndex(4);
+    }//GEN-LAST:event_settingsPanelMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        NotesSearchFile open = new NotesSearchFile();
+        open.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
+        int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (s == JOptionPane.OK_OPTION) {
+            setVisible(false);
+            new LoginForm().setVisible(true);
+        }
+    }//GEN-LAST:event_logoutPanelMouseClicked
+
+    private void aboutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBtnActionPerformed
+        AboutUsGUI aug = new AboutUsGUI();
+        aug.setVisible(true);
+    }//GEN-LAST:event_aboutBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -863,13 +956,18 @@ public class StudentGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane MainTabbedPane;
+    private javax.swing.JButton aboutBtn;
+    private javax.swing.JLabel aboutLbl;
     public javax.swing.JLabel accIDHolder;
     private javax.swing.JLabel accIDLbl;
     private javax.swing.JLabel addressLbl;
     private javax.swing.JTextField addressTxt;
+    private javax.swing.JTable availableSessions;
     private javax.swing.JLabel bioLbl;
     private javax.swing.JTextArea bioTxt;
     private javax.swing.JLabel changePassLbl;
+    private javax.swing.JLabel closeIcon1;
+    private javax.swing.JPanel closePanel;
     private javax.swing.JPanel commTab;
     private javax.swing.JButton communityBtn;
     private javax.swing.JButton discardProfileBtn;
@@ -877,17 +975,15 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel emailLbl;
     public javax.swing.JTextField emailTxt;
     private javax.swing.JButton homeBtn;
+    private javax.swing.JPanel homeSideBar;
     private javax.swing.JPanel homeTab;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
@@ -900,6 +996,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -908,16 +1005,13 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JLabel logoutIcon1;
+    private javax.swing.JPanel logoutPanel;
     private javax.swing.JButton notesBtn;
     private javax.swing.JPanel notesTab;
     private javax.swing.JButton profileBtn;
@@ -925,13 +1019,13 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profileDetails2;
     public javax.swing.JLabel profileNameLbl;
     private javax.swing.JPanel profilePanel;
-    private javax.swing.JPanel profilePanel1;
     private javax.swing.JPanel profilePicture;
-    private javax.swing.JPanel profilePicture1;
     private javax.swing.JPanel profileTab;
     public javax.swing.JTextField realNameTxt;
     private javax.swing.JButton saveProfileBtn;
-    private javax.swing.JButton settingsBtn;
+    private javax.swing.JScrollPane searchTutorPane;
+    private javax.swing.JLabel settingsIcon;
+    private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel settingsTab;
     private javax.swing.JPanel studentSidePanel;
     private javax.swing.JLabel titleLbl;

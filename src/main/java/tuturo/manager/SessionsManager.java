@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tuturo.database.MSSQLConnection;
-import tuturo.gui.SessionCreateGUI;
+import tuturo.othergui.SessionCreateGUI;
 
 public class SessionsManager {
     MSSQLConnection msql;

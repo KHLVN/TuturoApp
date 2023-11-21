@@ -42,7 +42,6 @@ public class LoginForm extends javax.swing.JFrame {
         loginBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setResizable(false);
 

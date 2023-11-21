@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package tuturo.gui;
+package tuturo.othergui;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -48,7 +48,7 @@ public class SessionCreateGUI extends javax.swing.JFrame {
 
         jTextField2.setText("jTextField2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         titlePaneLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
         titlePaneLbl.setText("Create Session");
@@ -173,9 +173,9 @@ public class SessionCreateGUI extends javax.swing.JFrame {
             
             System.out.println(date);
             
-            JOptionPane.showMessageDialog(null, name + subject + new SimpleDateFormat("yyyy/MM/dd HH:MM:SS").format(dateSpinner.getValue()));
+            JOptionPane.showMessageDialog(null, name + subject + new SimpleDateFormat("yyyy/MM/dd").format(dateSpinner.getValue()));
             // Create Session Insert Query to SQL Server
-            System.out.println(new SimpleDateFormat("yyyy/MM/dd").format(dateSpinner.getValue()));
+            
         }
     }//GEN-LAST:event_createBtnActionPerformed
 

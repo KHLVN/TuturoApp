@@ -4,6 +4,7 @@
  */
 package tuturo.gui;
 
+import tuturo.othergui.SessionCreateGUI;
 import javax.swing.JOptionPane;
 import tuturo.login.*;
 import java.sql.*;
@@ -42,8 +43,6 @@ public class TutorGUI extends javax.swing.JFrame {
         sessionsBtn = new javax.swing.JButton();
         communityBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
-        settingsBtn = new javax.swing.JButton();
-        logoutBtn = new javax.swing.JButton();
         titlePanel = new javax.swing.JPanel();
         titleLbl = new javax.swing.JLabel();
         MainTabbedPane = new javax.swing.JTabbedPane();
@@ -100,8 +99,10 @@ public class TutorGUI extends javax.swing.JFrame {
         settingsTab = new javax.swing.JPanel();
         closePanel = new javax.swing.JPanel();
         closeIcon1 = new javax.swing.JLabel();
-        minimizePanel = new javax.swing.JPanel();
-        closeIcon = new javax.swing.JLabel();
+        settingsPanel = new javax.swing.JPanel();
+        settingsIcon = new javax.swing.JLabel();
+        logoutPanel = new javax.swing.JPanel();
+        logoutIcon1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Yu Gothic UI", 0, 10)); // NOI18N
@@ -110,45 +111,39 @@ public class TutorGUI extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-home.png"))); // NOI18N
         homeBtn.setText("Home");
+        homeBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         homeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeBtnActionPerformed(evt);
             }
         });
 
+        sessionsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-notes.png"))); // NOI18N
         sessionsBtn.setText("Sessions History");
+        sessionsBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         sessionsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sessionsBtnActionPerformed(evt);
             }
         });
 
+        communityBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-community.png"))); // NOI18N
         communityBtn.setText("Community");
+        communityBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         communityBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 communityBtnActionPerformed(evt);
             }
         });
 
+        profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-profile.png"))); // NOI18N
         profileBtn.setText("Profile");
+        profileBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileBtnActionPerformed(evt);
-            }
-        });
-
-        settingsBtn.setText("Settings");
-        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBtnActionPerformed(evt);
-            }
-        });
-
-        logoutBtn.setText("Logout");
-        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutBtnActionPerformed(evt);
             }
         });
 
@@ -159,12 +154,10 @@ public class TutorGUI extends javax.swing.JFrame {
             .addGroup(tutorSidePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tutorSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sessionsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(communityBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addComponent(logoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(communityBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
                 .addContainerGap())
         );
         tutorSidePanelLayout.setVerticalGroup(
@@ -178,11 +171,7 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addComponent(communityBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profileBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsBtn)
-                .addGap(491, 491, 491)
-                .addComponent(logoutBtn)
-                .addContainerGap())
+                .addGap(514, 514, 514))
         );
 
         getContentPane().add(tutorSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 180, 670));
@@ -194,8 +183,9 @@ public class TutorGUI extends javax.swing.JFrame {
             }
         });
 
-        titleLbl.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        titleLbl.setText("Tuturo for Tutors");
+        titleLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        titleLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon.png"))); // NOI18N
+        titleLbl.setText("Tutors");
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
@@ -203,8 +193,8 @@ public class TutorGUI extends javax.swing.JFrame {
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titleLbl)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addComponent(titleLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +206,7 @@ public class TutorGUI extends javax.swing.JFrame {
 
         getContentPane().add(titlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 50));
 
-        MainTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        MainTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
 
         homeTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Home"));
 
@@ -256,7 +246,7 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createSessionBtn)
                     .addComponent(createLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(497, Short.MAX_VALUE))
+                .addContainerGap(466, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
@@ -266,7 +256,7 @@ public class TutorGUI extends javax.swing.JFrame {
             .addGroup(homeTabLayout.createSequentialGroup()
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
                 .addContainerGap())
         );
         homeTabLayout.setVerticalGroup(
@@ -330,7 +320,7 @@ public class TutorGUI extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(jLabel10))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
                 .addGroup(sessionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -359,7 +349,7 @@ public class TutorGUI extends javax.swing.JFrame {
                         .addGroup(sessionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton4)
                             .addComponent(jLabel10))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         MainTabbedPane.addTab("", sessionsTab);
@@ -434,7 +424,7 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(commTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -581,7 +571,7 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(accIDLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(accIDHolder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         saveProfileBtn.setText("Save Changes");
@@ -675,11 +665,11 @@ public class TutorGUI extends javax.swing.JFrame {
         settingsTab.setLayout(settingsTabLayout);
         settingsTabLayout.setHorizontalGroup(
             settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1065, Short.MAX_VALUE)
+            .addGap(0, 1090, Short.MAX_VALUE)
         );
         settingsTabLayout.setVerticalGroup(
             settingsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 647, Short.MAX_VALUE)
+            .addGap(0, 616, Short.MAX_VALUE)
         );
 
         MainTabbedPane.addTab("", settingsTab);
@@ -712,43 +702,63 @@ public class TutorGUI extends javax.swing.JFrame {
 
         getContentPane().add(closePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 0, 30, 30));
 
-        minimizePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+        settingsPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                minimizePanelMouseClicked(evt);
+                settingsPanelMouseClicked(evt);
             }
         });
 
-        closeIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        closeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-settings.png"))); // NOI18N
+        settingsIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        settingsIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-settings.png"))); // NOI18N
 
-        javax.swing.GroupLayout minimizePanelLayout = new javax.swing.GroupLayout(minimizePanel);
-        minimizePanel.setLayout(minimizePanelLayout);
-        minimizePanelLayout.setHorizontalGroup(
-            minimizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, minimizePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
+        settingsPanel.setLayout(settingsPanelLayout);
+        settingsPanelLayout.setHorizontalGroup(
+            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(closeIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(settingsIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        minimizePanelLayout.setVerticalGroup(
-            minimizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, minimizePanelLayout.createSequentialGroup()
+        settingsPanelLayout.setVerticalGroup(
+            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(closeIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(settingsIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(minimizePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 0, -1, -1));
+        getContentPane().add(settingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 0, -1, -1));
+
+        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutPanelMouseClicked(evt);
+            }
+        });
+
+        logoutIcon1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        logoutIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-logout.png"))); // NOI18N
+        logoutIcon1.setText("Logout");
+
+        javax.swing.GroupLayout logoutPanelLayout = new javax.swing.GroupLayout(logoutPanel);
+        logoutPanel.setLayout(logoutPanelLayout);
+        logoutPanelLayout.setHorizontalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutPanelLayout.createSequentialGroup()
+                .addComponent(logoutIcon1)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        logoutPanelLayout.setVerticalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(logoutIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        getContentPane().add(logoutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 0, 60, -1));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (s == JOptionPane.OK_OPTION) {
-            setVisible(false);
-            new LoginForm().setVisible(true);
-        }
-    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileBtnActionPerformed
         usernameTxt.setEnabled(true);
@@ -779,10 +789,6 @@ public class TutorGUI extends javax.swing.JFrame {
         MainTabbedPane.setSelectedIndex(3);
     }//GEN-LAST:event_profileBtnActionPerformed
 
-    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
-        MainTabbedPane.setSelectedIndex(4);
-    }//GEN-LAST:event_settingsBtnActionPerformed
-
     private void createSessionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSessionBtnActionPerformed
         SessionCreateGUI scg = new SessionCreateGUI();
         SubjectsManager sm = new SubjectsManager();
@@ -798,9 +804,9 @@ public class TutorGUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_closePanelMouseClicked
 
-    private void minimizePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizePanelMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_minimizePanelMouseClicked
+    private void settingsPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsPanelMouseClicked
+        MainTabbedPane.setSelectedIndex(4);
+    }//GEN-LAST:event_settingsPanelMouseClicked
 
     private void discardProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardProfileBtnActionPerformed
         usernameTxt.setEnabled(false);
@@ -827,6 +833,14 @@ public class TutorGUI extends javax.swing.JFrame {
         discardProfileBtn.setEnabled(false);
     }//GEN-LAST:event_saveProfileBtnActionPerformed
 
+    private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
+        int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (s == JOptionPane.OK_OPTION) {
+            setVisible(false);
+            new LoginForm().setVisible(true);
+        }
+    }//GEN-LAST:event_logoutPanelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -849,7 +863,6 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea bioTxt;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JLabel changePassLbl;
-    private javax.swing.JLabel closeIcon;
     private javax.swing.JLabel closeIcon1;
     private javax.swing.JPanel closePanel;
     private javax.swing.JPanel commTab;
@@ -884,8 +897,8 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton logoutBtn;
-    private javax.swing.JPanel minimizePanel;
+    private javax.swing.JLabel logoutIcon1;
+    private javax.swing.JPanel logoutPanel;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel profileDetails;
     private javax.swing.JPanel profileDetails2;
@@ -897,7 +910,8 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JButton saveProfileBtn;
     private javax.swing.JButton sessionsBtn;
     private javax.swing.JPanel sessionsTab;
-    private javax.swing.JButton settingsBtn;
+    private javax.swing.JLabel settingsIcon;
+    private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel settingsTab;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JPanel titlePanel;

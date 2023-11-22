@@ -7,10 +7,12 @@ package tuturo.gui;
 import javax.swing.JOptionPane;
 import tuturo.login.*;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import tuturo.database.*;
+import java.util.ArrayList;
+import java.util.logging.*;
+import javax.swing.table.DefaultTableModel;
+import tuturo.manager.SessionsManager;
 import tuturo.manager.UsersManager;
+import tuturo.model.Sessions;
 import tuturo.othergui.AboutUsGUI;
 import tuturo.othergui.NotesSearchFile;
 
@@ -19,6 +21,7 @@ import tuturo.othergui.NotesSearchFile;
  * @author Khelvin
  */
 public class StudentGUI extends javax.swing.JFrame {
+    SessionsManager ss = new SessionsManager();
     UsersManager um = new UsersManager();
     Statement statement;
     Connection conn;
@@ -49,10 +52,10 @@ public class StudentGUI extends javax.swing.JFrame {
         MainTabbedPane = new javax.swing.JTabbedPane();
         homeTab = new javax.swing.JPanel();
         homeSideBar = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        findTutorBtn = new javax.swing.JButton();
+        searchTutorBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton14 = new javax.swing.JButton();
+        findSessionBtn = new javax.swing.JButton();
         searchTutorPane = new javax.swing.JScrollPane();
         availableSessions = new javax.swing.JTable();
         notesTab = new javax.swing.JPanel();
@@ -199,14 +202,14 @@ public class StudentGUI extends javax.swing.JFrame {
 
         getContentPane().add(studentSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 180, 670));
 
-        titlePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        titlePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
         titlePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 titlePanelMouseClicked(evt);
             }
         });
 
-        titleLbl.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        titleLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         titleLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon.png"))); // NOI18N
         titleLbl.setText("Student");
 
@@ -223,7 +226,7 @@ public class StudentGUI extends javax.swing.JFrame {
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titleLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(titleLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -235,14 +238,19 @@ public class StudentGUI extends javax.swing.JFrame {
 
         homeTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Home"));
 
-        jButton9.setText("Find Tutor");
+        findTutorBtn.setText("Find Tutor");
 
-        jButton10.setText("Search Tutor");
+        searchTutorBtn.setText("Show Open Sessions");
+        searchTutorBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTutorBtnActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
         jLabel6.setText("Welcome!");
 
-        jButton14.setText("Find a Session");
+        findSessionBtn.setText("Search a Session");
 
         javax.swing.GroupLayout homeSideBarLayout = new javax.swing.GroupLayout(homeSideBar);
         homeSideBar.setLayout(homeSideBarLayout);
@@ -251,10 +259,10 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(homeSideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(findTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(findSessionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         homeSideBarLayout.setVerticalGroup(
@@ -263,26 +271,57 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addGap(137, 137, 137)
-                .addComponent(jButton10)
+                .addComponent(searchTutorBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9)
+                .addComponent(findTutorBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton14)
+                .addComponent(findSessionBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        searchTutorPane.setRowHeaderView(null);
+
         availableSessions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Tutor ID", "Tutor Name", "Sub ID", "Subject Name"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        availableSessions.setShowGrid(false);
+        availableSessions.setShowVerticalLines(true);
+        availableSessions.getTableHeader().setResizingAllowed(false);
+        availableSessions.getTableHeader().setReorderingAllowed(false);
         searchTutorPane.setViewportView(availableSessions);
+        if (availableSessions.getColumnModel().getColumnCount() > 0) {
+            availableSessions.getColumnModel().getColumn(0).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(1).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(2).setResizable(false);
+            availableSessions.getColumnModel().getColumn(2).setPreferredWidth(300);
+            availableSessions.getColumnModel().getColumn(3).setResizable(false);
+            availableSessions.getColumnModel().getColumn(3).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(4).setResizable(false);
+            availableSessions.getColumnModel().getColumn(4).setPreferredWidth(300);
+        }
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
@@ -511,7 +550,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addGroup(profileDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(changePassLbl)
                     .addComponent(jButton1))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         profileDetails2.setBorder(javax.swing.BorderFactory.createTitledBorder("Other Settings"));
@@ -851,6 +890,22 @@ public class StudentGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void showSessions() {
+        ArrayList<Sessions> sessionList = ss.sList();
+        
+        DefaultTableModel model = (DefaultTableModel) this.availableSessions.getModel();
+        Object[] row = new Object[5];
+        model.setRowCount(0);
+        for (int i = 0; i < sessionList.size(); i++) {
+            row[0] = sessionList.get(i).sessionID;
+            row[1] = "00000" + sessionList.get(i).hostID;
+            row[2] = sessionList.get(i).hostName;
+            row[3] = sessionList.get(i).subjectID;
+            row[4] = sessionList.get(i).subjectName;
+            model.addRow(row);
+        }
+    }
+    
     private void communityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communityBtnActionPerformed
         MainTabbedPane.setSelectedIndex(2);
     }//GEN-LAST:event_communityBtnActionPerformed
@@ -942,6 +997,10 @@ public class StudentGUI extends javax.swing.JFrame {
         aug.setVisible(true);
     }//GEN-LAST:event_aboutBtnActionPerformed
 
+    private void searchTutorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTutorBtnActionPerformed
+        showSessions();
+    }//GEN-LAST:event_searchTutorBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -974,18 +1033,17 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JButton editProfileBtn;
     private javax.swing.JLabel emailLbl;
     public javax.swing.JTextField emailTxt;
+    private javax.swing.JButton findSessionBtn;
+    private javax.swing.JButton findTutorBtn;
     private javax.swing.JButton homeBtn;
     private javax.swing.JPanel homeSideBar;
     private javax.swing.JPanel homeTab;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -1023,6 +1081,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profileTab;
     public javax.swing.JTextField realNameTxt;
     private javax.swing.JButton saveProfileBtn;
+    private javax.swing.JButton searchTutorBtn;
     private javax.swing.JScrollPane searchTutorPane;
     private javax.swing.JLabel settingsIcon;
     private javax.swing.JPanel settingsPanel;

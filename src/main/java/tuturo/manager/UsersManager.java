@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import tuturo.gui.StudentGUI;
 import tuturo.gui.TutorGUI;
-import tuturo.login.LoginForm;
 import tuturo.model.Accounts;
 
 public class UsersManager {
@@ -73,7 +72,7 @@ public class UsersManager {
                         st.realNameTxt.setText(rs.getString("real_name"));
                         st.emailTxt.setText(rs.getString("email"));
                         st.accIDHolder.setText(rs.getString("account_id"));
-                        break;
+                        return false;
                     case "Tutor":
                         JOptionPane.showMessageDialog(null, "Login Successful");
                         TutorGUI tu = new TutorGUI();
@@ -84,7 +83,7 @@ public class UsersManager {
                         tu.realNameTxt.setText(rs.getString("real_name"));
                         tu.emailTxt.setText(rs.getString("email"));
                         tu.accIDHolder.setText(rs.getString("account_id"));
-                        break;
+                        return false;
                 }
             }
             else {
@@ -93,7 +92,7 @@ public class UsersManager {
         } catch (SQLException ex) {
             Logger.getLogger(UsersManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
     
     public void updateProfile(String username, String realname, String email, String accID){

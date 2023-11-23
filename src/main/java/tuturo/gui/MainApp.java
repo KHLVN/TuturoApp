@@ -18,9 +18,11 @@ public class MainApp {
     public static void main(String[] args) {
         FlatRobotoFont.install();
         
-        UIManager.put( "defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        UIManager.put( "Button.arc", 20);
-        UIManager.put("Component.focusWidth", 0 );
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        UIManager.put("Button.arc", 20);
+        UIManager.put("Component.focusWidth", 0);
+        UIManager.put("Button.background", new Color(61, 103, 255));
+        
         FlatMacDarkLaf.setup();
         
         EventQueue.invokeLater(() -> {new LoginForm().setVisible(true);

@@ -95,6 +95,8 @@ public class StudentGUI extends javax.swing.JFrame {
         accIDHolder = new javax.swing.JLabel();
         saveProfileBtn = new javax.swing.JButton();
         discardProfileBtn = new javax.swing.JButton();
+        dateJoinedLbl = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         settingsTab = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -629,6 +631,10 @@ public class StudentGUI extends javax.swing.JFrame {
             }
         });
 
+        dateJoinedLbl.setText("date_created");
+
+        jLabel14.setText("Date Created");
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
@@ -638,7 +644,14 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(editProfileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(profilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(profilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(profilePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(profilePanelLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(dateJoinedLbl))
+                                    .addComponent(jLabel14))))
                         .addGap(18, 18, 18)
                         .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(profileDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -646,7 +659,7 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(profileNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profilePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(discardProfileBtn)
@@ -667,6 +680,10 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(profilePanelLayout.createSequentialGroup()
                         .addComponent(editProfileBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateJoinedLbl)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(profileDetails2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1029,6 +1046,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel closePanel;
     private javax.swing.JPanel commTab;
     private javax.swing.JButton communityBtn;
+    public javax.swing.JLabel dateJoinedLbl;
     private javax.swing.JButton discardProfileBtn;
     private javax.swing.JButton editProfileBtn;
     private javax.swing.JLabel emailLbl;
@@ -1055,6 +1073,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

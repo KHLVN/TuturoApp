@@ -14,27 +14,32 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tuturo.database.MSSQLConnection;
+import tuturo.gui.TutorGUI;
 import tuturo.model.Sessions;
 import tuturo.othergui.SessionCreateGUI;
 
 public class SessionsManager {
-    MSSQLConnection msql;
+    MSSQLConnection msql = new MSSQLConnection();
     public int sessionID;
     public int userID;
     public int subjectID;
     public Date sessionDate;
     public Time sessionTime;
+    TutorGUI tg = new TutorGUI();
 //    Sessions ss = new Sessions(sessionID, userID, subjectID);
     
-    public void createSession(Date sessionDate, Time sessionTime) {
-        SessionCreateGUI scg = new SessionCreateGUI();
-        String insertQuery = "INSERT INTO Session_schedule(session_date, session_time) VALUES ('"+sessionDate+"','"+sessionTime+"')";
+    public void createSession(Date sessionDate, Object subjectName) {
+        msql.connect();
+//        INSERT INTO Session_schedule(session_date, session_time_created) VALUES ('(STR_TO_DATE('"+sessionDate+"', '%d %M %Y')', CURRENT_TIMESTAMP);
+        String insertQuery = ""
+                + "INSERT INTO Session(host_id, subject_id, account_type) VALUES ( (SELECT account_id FROM Accounts WHERE account_id="+tg.accIDHolder.getText()+"),'"+getSubjectID(subjectName)+"', 'Tutor')";
         
         try {
             ResultSet rs;
             Statement statement = msql.connect().createStatement();
             rs = statement.executeQuery(insertQuery);
         } catch (SQLException ex) {
+            System.out.println("DITO ANG PROBLEMA");
             Logger.getLogger(SubjectsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -65,5 +70,20 @@ public class SessionsManager {
                 System.out.println(ex);
             }
         return sList;  
+    }
+    
+    public int getSubjectID(Object subjectName) {
+        try {
+            msql.connect();
+            String query = "SELECT subject_id FROM Subject WHERE subject_name='"+subjectName+"'";
+            Statement st = msql.connect().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if(rs.next()) {
+                return Integer.parseInt(rs.getString("subject_id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 }

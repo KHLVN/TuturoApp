@@ -24,8 +24,8 @@ public class UsersManager {
             
             switch (role) {
                 case "Student" -> {
-                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"')";
+                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
+                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"',GETDATE())";
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -33,8 +33,8 @@ public class UsersManager {
                 }
                     
                 case "Tutor" -> {
-                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Tutor' ,'"+phone_no+"','"+email+"','"+password+"')";
+                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
+                                + "VALUES('"+fullName+"','"+username+"', 'Tutor' ,'"+phone_no+"','"+email+"','"+password+"', GETDATE())";
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -72,6 +72,7 @@ public class UsersManager {
                         st.realNameTxt.setText(rs.getString("real_name"));
                         st.emailTxt.setText(rs.getString("email"));
                         st.accIDHolder.setText(rs.getString("account_id"));
+                        st.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
                     case "Tutor":
                         JOptionPane.showMessageDialog(null, "Login Successful");
@@ -83,6 +84,7 @@ public class UsersManager {
                         tu.realNameTxt.setText(rs.getString("real_name"));
                         tu.emailTxt.setText(rs.getString("email"));
                         tu.accIDHolder.setText(rs.getString("account_id"));
+                        tu.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
                 }
             }

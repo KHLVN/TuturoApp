@@ -25,7 +25,7 @@ public class UsersManager {
             switch (role) {
                 case "Student" -> {
                     insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"',GETDATE())";
+                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"', GETDATE())";
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -66,6 +66,7 @@ public class UsersManager {
                         JOptionPane.showMessageDialog(null, "Login Successful");
                         StudentGUI st = new StudentGUI();
                         st.setVisible(true);
+                        st.welcomeLbl.setText("Welcome, " + rs.getString("real_name"));
                         st.welcomeProfileLbl.setText("Hello, " + rs.getString("real_name"));
                         st.profileNameLbl.setText(rs.getString("real_name"));
                         st.usernameTxt.setText(rs.getString("username"));
@@ -74,10 +75,14 @@ public class UsersManager {
                         st.accIDHolder.setText(rs.getString("account_id"));
                         st.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
+                        
                     case "Tutor":
                         JOptionPane.showMessageDialog(null, "Login Successful");
                         TutorGUI tu = new TutorGUI();
+                        SubjectsManager sm = new SubjectsManager();
                         tu.setVisible(true);
+                        sm.addSubjects(tu.subjectComboBox);
+                        tu.welcomeLbl.setText("Welcome, " + rs.getString("real_name"));
                         tu.welcomeProfileLbl.setText("Hello, " + rs.getString("real_name"));
                         tu.profileNameLbl.setText(rs.getString("real_name"));
                         tu.usernameTxt.setText(rs.getString("username"));

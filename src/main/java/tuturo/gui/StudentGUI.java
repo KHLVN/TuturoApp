@@ -15,6 +15,7 @@ import tuturo.manager.UsersManager;
 import tuturo.model.Sessions;
 import tuturo.othergui.AboutUsGUI;
 import tuturo.othergui.NotesSearchFile;
+import tuturo.othergui.TreeFileSystem;
 
 /**
  *
@@ -46,7 +47,8 @@ public class StudentGUI extends javax.swing.JFrame {
         notesBtn = new javax.swing.JButton();
         communityBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
-        logoutBtn = new javax.swing.JButton();
+        logoutPanel = new javax.swing.JPanel();
+        logoutIcon = new javax.swing.JLabel();
         titlePanel = new javax.swing.JPanel();
         titleLbl = new javax.swing.JLabel();
         MainTabbedPane = new javax.swing.JTabbedPane();
@@ -54,14 +56,17 @@ public class StudentGUI extends javax.swing.JFrame {
         homeSideBar = new javax.swing.JPanel();
         findTutorBtn = new javax.swing.JButton();
         searchTutorBtn = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         findSessionBtn = new javax.swing.JButton();
+        todoListBtn = new javax.swing.JButton();
+        welcomePanel = new javax.swing.JPanel();
+        welcomeLbl = new javax.swing.JLabel();
+        homeTabbedPanel = new javax.swing.JTabbedPane();
         searchTutorPane = new javax.swing.JScrollPane();
         availableSessions = new javax.swing.JTable();
         notesTab = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        openNotesBtn = new javax.swing.JButton();
         commTab = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -119,8 +124,6 @@ public class StudentGUI extends javax.swing.JFrame {
         closeIcon1 = new javax.swing.JLabel();
         settingsPanel = new javax.swing.JPanel();
         settingsIcon = new javax.swing.JLabel();
-        logoutPanel = new javax.swing.JPanel();
-        logoutIcon1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Yu Gothic UI", 0, 10)); // NOI18N
@@ -165,12 +168,29 @@ public class StudentGUI extends javax.swing.JFrame {
             }
         });
 
-        logoutBtn.setText("Logout");
-        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutBtnActionPerformed(evt);
+        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutPanelMouseClicked(evt);
             }
         });
+
+        logoutIcon.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        logoutIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoutIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-logout.png"))); // NOI18N
+        logoutIcon.setText("Logout");
+
+        javax.swing.GroupLayout logoutPanelLayout = new javax.swing.GroupLayout(logoutPanel);
+        logoutPanel.setLayout(logoutPanelLayout);
+        logoutPanelLayout.setHorizontalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(logoutIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        logoutPanelLayout.setVerticalGroup(
+            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(logoutIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout studentSidePanelLayout = new javax.swing.GroupLayout(studentSidePanel);
         studentSidePanel.setLayout(studentSidePanelLayout);
@@ -183,7 +203,7 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(notesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(communityBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addComponent(logoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(logoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         studentSidePanelLayout.setVerticalGroup(
@@ -197,9 +217,9 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addComponent(communityBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profileBtn)
-                .addGap(532, 532, 532)
-                .addComponent(logoutBtn)
-                .addContainerGap())
+                .addGap(488, 488, 488)
+                .addComponent(logoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
 
         getContentPane().add(studentSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 180, 670));
@@ -240,19 +260,26 @@ public class StudentGUI extends javax.swing.JFrame {
 
         homeTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Home"));
 
+        findTutorBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         findTutorBtn.setText("Find Tutor");
+        findTutorBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
+        searchTutorBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         searchTutorBtn.setText("Show Open Sessions");
+        searchTutorBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         searchTutorBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchTutorBtnActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
-        jLabel6.setText("Welcome!");
-
+        findSessionBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         findSessionBtn.setText("Search a Session");
+        findSessionBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        todoListBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        todoListBtn.setText("To-Do List");
+        todoListBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout homeSideBarLayout = new javax.swing.GroupLayout(homeSideBar);
         homeSideBar.setLayout(homeSideBarLayout);
@@ -261,24 +288,44 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(homeSideBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                     .addComponent(findTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(findSessionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(findSessionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(todoListBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         homeSideBarLayout.setVerticalGroup(
             homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeSideBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(137, 137, 137)
                 .addComponent(searchTutorBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(findTutorBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(findSessionBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(todoListBtn)
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+
+        welcomeLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
+        welcomeLbl.setText("Welcome, ");
+
+        javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
+        welcomePanel.setLayout(welcomePanelLayout);
+        welcomePanelLayout.setHorizontalGroup(
+            welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(welcomeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        welcomePanelLayout.setVerticalGroup(
+            welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, welcomePanelLayout.createSequentialGroup()
+                .addContainerGap(107, Short.MAX_VALUE)
+                .addComponent(welcomeLbl)
+                .addContainerGap())
         );
 
         searchTutorPane.setRowHeaderView(null);
@@ -315,33 +362,42 @@ public class StudentGUI extends javax.swing.JFrame {
         availableSessions.getTableHeader().setReorderingAllowed(false);
         searchTutorPane.setViewportView(availableSessions);
         if (availableSessions.getColumnModel().getColumnCount() > 0) {
-            availableSessions.getColumnModel().getColumn(0).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(0).setPreferredWidth(30);
+            availableSessions.getColumnModel().getColumn(0).setMaxWidth(30);
             availableSessions.getColumnModel().getColumn(1).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(1).setMaxWidth(50);
             availableSessions.getColumnModel().getColumn(2).setResizable(false);
             availableSessions.getColumnModel().getColumn(2).setPreferredWidth(300);
-            availableSessions.getColumnModel().getColumn(3).setResizable(false);
-            availableSessions.getColumnModel().getColumn(3).setPreferredWidth(50);
+            availableSessions.getColumnModel().getColumn(3).setPreferredWidth(30);
+            availableSessions.getColumnModel().getColumn(3).setMaxWidth(30);
             availableSessions.getColumnModel().getColumn(4).setResizable(false);
             availableSessions.getColumnModel().getColumn(4).setPreferredWidth(300);
         }
+
+        homeTabbedPanel.addTab("Open Sessions", searchTutorPane);
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
         homeTabLayout.setHorizontalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeTabLayout.createSequentialGroup()
+                .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(homeTabLayout.createSequentialGroup()
                 .addComponent(homeSideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchTutorPane, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(homeTabbedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE))
         );
         homeTabLayout.setVerticalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(homeSideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchTutorPane, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(homeTabLayout.createSequentialGroup()
+                .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(homeSideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(homeTabLayout.createSequentialGroup()
+                        .addComponent(homeTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         MainTabbedPane.addTab("", homeTab);
@@ -353,10 +409,10 @@ public class StudentGUI extends javax.swing.JFrame {
 
         jLabel13.setText("Open your Notes");
 
-        jButton3.setText("Open");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        openNotesBtn.setText("Open");
+        openNotesBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                openNotesBtnActionPerformed(evt);
             }
         });
 
@@ -373,7 +429,7 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addGroup(notesTabLayout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(openNotesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         notesTabLayout.setVerticalGroup(
@@ -384,7 +440,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jButton3))
+                    .addComponent(openNotesBtn))
                 .addContainerGap())
         );
 
@@ -875,53 +931,26 @@ public class StudentGUI extends javax.swing.JFrame {
 
         getContentPane().add(settingsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 0, -1, -1));
 
-        logoutPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutPanelMouseClicked(evt);
-            }
-        });
-
-        logoutIcon1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        logoutIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoutIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-logout.png"))); // NOI18N
-        logoutIcon1.setText("Logout");
-
-        javax.swing.GroupLayout logoutPanelLayout = new javax.swing.GroupLayout(logoutPanel);
-        logoutPanel.setLayout(logoutPanelLayout);
-        logoutPanelLayout.setHorizontalGroup(
-            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logoutPanelLayout.createSequentialGroup()
-                .addComponent(logoutIcon1)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        logoutPanelLayout.setVerticalGroup(
-            logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logoutPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(logoutIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        getContentPane().add(logoutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 0, 60, -1));
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void showSessions() {
-        ArrayList<Sessions> sessionList = ss.sList();
-        
-        DefaultTableModel model = (DefaultTableModel) this.availableSessions.getModel();
-        Object[] row = new Object[5];
-        model.setRowCount(0);
-        for (int i = 0; i < sessionList.size(); i++) {
-            row[0] = sessionList.get(i).sessionID;
-            row[1] = "00000" + sessionList.get(i).hostID;
-            row[2] = sessionList.get(i).hostName;
-            row[3] = sessionList.get(i).subjectID;
-            row[4] = sessionList.get(i).subjectName;
-            model.addRow(row);
-        }
-    }
+//     public void showSessions() {
+//        SessionsManager sm = new SessionsManager(); 
+//        ArrayList<Sessions> sessionList = sm.sList();
+//        
+//        DefaultTableModel model = (DefaultTableModel) availableSessions.getModel();
+//        Object[] row = new Object[5];
+//        model.setRowCount(0);
+//        for (int i = 0; i < sessionList.size(); i++) {
+//            row[0] = sessionList.get(i).sessionID;
+//            row[1] = "000" + sessionList.get(i).hostID;
+//            row[2] = sessionList.get(i).hostName;
+//            row[3] = sessionList.get(i).subjectID;
+//            row[4] = sessionList.get(i).subjectName;
+//            model.addRow(row);
+//        }
+//    }
     
     private void communityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communityBtnActionPerformed
         MainTabbedPane.setSelectedIndex(2);
@@ -938,14 +967,6 @@ public class StudentGUI extends javax.swing.JFrame {
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
         MainTabbedPane.setSelectedIndex(3);
     }//GEN-LAST:event_profileBtnActionPerformed
-
-    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (s == JOptionPane.OK_OPTION) {
-            setVisible(false);
-            new LoginForm().setVisible(true);
-        }
-    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void titlePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titlePanelMouseClicked
         MainTabbedPane.setSelectedIndex(0);
@@ -996,10 +1017,10 @@ public class StudentGUI extends javax.swing.JFrame {
         MainTabbedPane.setSelectedIndex(4);
     }//GEN-LAST:event_settingsPanelMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        NotesSearchFile open = new NotesSearchFile();
+    private void openNotesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openNotesBtnActionPerformed
+        TreeFileSystem open = new TreeFileSystem();
         open.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_openNotesBtnActionPerformed
 
     private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
         int s = JOptionPane.showConfirmDialog(this, "Do you want to sign out?", "Sign Out?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -1015,7 +1036,21 @@ public class StudentGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutBtnActionPerformed
 
     private void searchTutorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTutorBtnActionPerformed
-        showSessions();
+        homeTabbedPanel.setSelectedIndex(0);
+        SessionsManager sm = new SessionsManager(); 
+        ArrayList<Sessions> sessionList = sm.sList();
+        
+        DefaultTableModel model = (DefaultTableModel) availableSessions.getModel();
+        Object[] row = new Object[5];
+        model.setRowCount(0);
+        for (int i = 0; i < sessionList.size(); i++) {
+            row[0] = sessionList.get(i).sessionID;
+            row[1] = "000" + sessionList.get(i).hostID;
+            row[2] = sessionList.get(i).hostName;
+            row[3] = sessionList.get(i).subjectID;
+            row[4] = sessionList.get(i).subjectName;
+            model.addRow(row);
+        }
     }//GEN-LAST:event_searchTutorBtnActionPerformed
 
     /**
@@ -1038,7 +1073,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel accIDLbl;
     private javax.swing.JLabel addressLbl;
     private javax.swing.JTextField addressTxt;
-    private javax.swing.JTable availableSessions;
+    public javax.swing.JTable availableSessions;
     private javax.swing.JLabel bioLbl;
     private javax.swing.JTextArea bioTxt;
     private javax.swing.JLabel changePassLbl;
@@ -1056,11 +1091,11 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JButton homeBtn;
     private javax.swing.JPanel homeSideBar;
     private javax.swing.JPanel homeTab;
+    private javax.swing.JTabbedPane homeTabbedPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton8;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -1078,7 +1113,6 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1086,11 +1120,11 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JButton logoutBtn;
-    private javax.swing.JLabel logoutIcon1;
+    private javax.swing.JLabel logoutIcon;
     private javax.swing.JPanel logoutPanel;
     private javax.swing.JButton notesBtn;
     private javax.swing.JPanel notesTab;
+    private javax.swing.JButton openNotesBtn;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel profileDetails;
     private javax.swing.JPanel profileDetails2;
@@ -1108,8 +1142,11 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel studentSidePanel;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JPanel titlePanel;
+    private javax.swing.JButton todoListBtn;
     private javax.swing.JLabel usernameLbl;
     public javax.swing.JTextField usernameTxt;
+    public javax.swing.JLabel welcomeLbl;
+    private javax.swing.JPanel welcomePanel;
     public javax.swing.JLabel welcomeProfileLbl;
     // End of variables declaration//GEN-END:variables
 }

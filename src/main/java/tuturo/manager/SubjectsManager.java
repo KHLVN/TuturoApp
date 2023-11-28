@@ -24,11 +24,6 @@ public class SubjectsManager {
     public ArrayList<String> subjects;
     MSSQLConnection msql = new MSSQLConnection();
 
-
-    public SubjectsManager() {
-        this.subjects = subjects;
-    }
-    
     public ArrayList<String> getArrayList(ArrayList<String> subjects) {
         String inputQuery = "SELECT subject_name FROM Subject";
         
@@ -43,6 +38,22 @@ public class SubjectsManager {
             Logger.getLogger(SubjectsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return subjects;
+    }
+    
+    public int getSubjectID(String subjectName) {
+        try {
+            msql.connect();
+            String query = "SELECT subject_id FROM Subject WHERE subject_name='"+subjectName+"'";
+            Statement st = msql.connect().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            int subjectID = Integer.parseInt(rs.getString("subject_id"));
+            if(rs.next()) {
+                return subjectID;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
     
     public void addSubjects(JComboBox subjects) throws SQLException {

@@ -10,10 +10,11 @@ package tuturo.manager;
  */
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import tuturo.database.MSSQLConnection;
+import tuturo.gui.StudentGUI;
 import tuturo.gui.TutorGUI;
 import tuturo.model.Sessions;
 import tuturo.othergui.SessionCreateGUI;
@@ -26,14 +27,25 @@ public class SessionsManager {
     public Date sessionDate;
     public Time sessionTime;
     TutorGUI tg = new TutorGUI();
-//    Sessions ss = new Sessions(sessionID, userID, subjectID);
+    SubjectsManager subman = new SubjectsManager();
     
-    public void createSession(Date sessionDate, Object subjectName) {
+    public void showCreatedSession(){
+        ArrayList<Sessions> hostSessionList = sList();
+        DefaultTableModel model = (DefaultTableModel) tg.tutorSessionsTable.getModel();
+        Object[] row = new Object[5];
+        model.setRowCount(0);
+        for(int i = 0; i < hostSessionList.size(); i++) {
+            
+        }
+    }
+    
+    public void createSession(int hostID, int duration, String subjectName) {
         msql.connect();
 //        INSERT INTO Session_schedule(session_date, session_time_created) VALUES ('(STR_TO_DATE('"+sessionDate+"', '%d %M %Y')', CURRENT_TIMESTAMP);
-        String insertQuery = ""
-                + "INSERT INTO Session(host_id, subject_id, account_type) VALUES ( (SELECT account_id FROM Accounts WHERE account_id="+tg.accIDHolder.getText()+"),'"+getSubjectID(subjectName)+"', 'Tutor')";
         
+        String insertQuery = "INSERT INTO Session(host_id, subject_id, account_type, duration, session_time_created) "
+                           + "VALUES('"+hostID+"', '"+subman.getSubjectID(subjectName)+"', 'Tutor', "+duration+", DEFAULT)";
+                             
         try {
             ResultSet rs;
             Statement statement = msql.connect().createStatement();
@@ -51,12 +63,11 @@ public class SessionsManager {
             try {
                 msql.connect();
                 Statement st = msql.connect().createStatement();
-                Statement st1 = msql.connect().createStatement();
-                Statement st2 = msql.connect().createStatement();
                 
-                query = "SELECT * FROM Session \n" +
-                        "INNER JOIN Accounts ON Session.host_id = Accounts.account_id \n" +
-                        "INNER JOIN Subject ON Session.subject_id = Subject.subject_id";
+                query = """
+                        SELECT * FROM Session 
+                        INNER JOIN Accounts ON Session.host_id = Accounts.account_id 
+                        INNER JOIN Subject ON Session.subject_id = Subject.subject_id""";
                 ResultSet rs = st.executeQuery(query);
                 
                 while(rs.next()) {
@@ -72,18 +83,8 @@ public class SessionsManager {
         return sList;  
     }
     
-    public int getSubjectID(Object subjectName) {
-        try {
-            msql.connect();
-            String query = "SELECT subject_id FROM Subject WHERE subject_name='"+subjectName+"'";
-            Statement st = msql.connect().createStatement();
-            ResultSet rs = st.executeQuery(query);
-            if(rs.next()) {
-                return Integer.parseInt(rs.getString("subject_id"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
+    public void getTutorSession(int hostID) {
+        msql.connect();
+        String query = "SELECT ";
     }
 }

@@ -3,6 +3,7 @@ package tuturo.manager;
 import tuturo.database.*;
 import java.sql.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,17 +16,19 @@ public class UsersManager {
     MSSQLConnection msql = new MSSQLConnection();
     public ResultSet rs, rs1;
     
+    
     public void registerUser(String fullName, String username, String phone_no, String email, String role, String password){
         
         try {
+            LocalDate date = LocalDate.now();
+            String sDate = date.toString();
             String insertQuery;
             Statement statement;
-            msql.connect();
             
             switch (role) {
                 case "Student" -> {
                     insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"', GETDATE())";
+                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"', '"+date+"')";
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -34,7 +37,7 @@ public class UsersManager {
                     
                 case "Tutor" -> {
                     insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Tutor' ,'"+phone_no+"','"+email+"','"+password+"', GETDATE())";
+                                + "VALUES('"+fullName+"','"+username+"', 'Tutor' ,'"+phone_no+"','"+email+"','"+password+"', '"+date+"')";
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -42,6 +45,7 @@ public class UsersManager {
                 }
                     
                 default -> {
+                    JOptionPane.showMessageDialog(null, "ROLE Not Selected for User");
                 }
             }
             

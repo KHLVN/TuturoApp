@@ -4,24 +4,19 @@
  */
 package tuturo.model;
 
-import java.sql.*;
+import java.sql.Date;
 import java.util.ArrayList;
-import tuturo.database.MSSQLConnection;
 
-public class Sessions {
-    public int sessionID;
-    public int hostID;
+public class HostSessions {
     public int subjectID;
-    public String hostName;
+    public String sessionName;
     public String subjectName;
     public Date date;
-    public ArrayList<Sessions> sessionList = new ArrayList<>();
+    public ArrayList<HostSessions> hostSessionList = new ArrayList<>();
     
-    public Sessions(int sessionID, int hostID, String hostName, int subjectID, String subjectName, Date date) {
-        this.sessionID = sessionID;
-        this.hostID = hostID;
-        this.hostName = hostName;
+    public HostSessions(int subjectID, String sessionName, String subjectName, Date date) {
         this.subjectID = subjectID;
+        this.sessionName = sessionName;
         this.subjectName = subjectName;
         this.date = date;
     }

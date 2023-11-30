@@ -12,12 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import tuturo.database.MSSQLConnection;
+import tuturo.model.Subjects;
 
 /**
  *
  * @author Khelvin
  */
 public class SubjectsManager {
+    ResultSet rs;
     public int subjectID;
     public String subjectName;
     public String subjectCategory;
@@ -40,29 +42,48 @@ public class SubjectsManager {
         return subjects;
     }
     
-    public int getSubjectID(String subjectName) {
+    public int getSubjectID(String subjectName){
+        String query = "SELECT subject_id FROM Subject WHERE subject_name='"+subjectName+"'";
         try {
-            msql.connect();
-            String query = "SELECT subject_id FROM Subject WHERE subject_name='"+subjectName+"'";
             Statement st = msql.connect().createStatement();
-            ResultSet rs = st.executeQuery(query);
-            int subjectID = Integer.parseInt(rs.getString("subject_id"));
-            if(rs.next()) {
-                return subjectID;
+            rs = st.executeQuery(query);
+            if (rs.next()) {
+                subjectID = rs.getInt("subject_id");
             }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubjectsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1;
+        return subjectID;
     }
     
     public void addSubjects(JComboBox subjects) throws SQLException {
         String inputQuery = "SELECT subject_name FROM Subject";
-        ResultSet rs;
-        Statement statement = msql.connect().createStatement();
-        rs = statement.executeQuery(inputQuery);
+        Statement st = msql.connect().createStatement();
+        ResultSet rs = st.executeQuery(inputQuery);
         while(rs.next()){
             subjects.addItem(rs.getString("subject_name"));
         }
+    }
+    
+    public ArrayList<Subjects> subList() {
+        ArrayList<Subjects> subList = new ArrayList<>();
+        String query;
+        try {
+            msql.connect();
+            Statement st = msql.connect().createStatement();
+            
+            query = "SELECT * FROM Subject";
+            ResultSet rs = st.executeQuery(query);
+            
+            while(rs.next()) {
+                Subjects sb = new Subjects(rs.getInt("subject_id"), rs.getString("subject_name"), rs.getString("subject_category"));
+                subList.add(sb);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subList;
     }
 }

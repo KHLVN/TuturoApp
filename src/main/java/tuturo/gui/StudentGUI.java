@@ -54,7 +54,6 @@ public class StudentGUI extends javax.swing.JFrame {
         MainTabbedPane = new javax.swing.JTabbedPane();
         homeTab = new javax.swing.JPanel();
         homeSideBar = new javax.swing.JPanel();
-        findTutorBtn = new javax.swing.JButton();
         searchTutorBtn = new javax.swing.JButton();
         findSessionBtn = new javax.swing.JButton();
         todoListBtn = new javax.swing.JButton();
@@ -63,6 +62,8 @@ public class StudentGUI extends javax.swing.JFrame {
         homeTabbedPanel = new javax.swing.JTabbedPane();
         searchTutorPane = new javax.swing.JScrollPane();
         availableSessions = new javax.swing.JTable();
+        searchTutorTxt = new javax.swing.JTextField();
+        searchTutorLbl = new javax.swing.JLabel();
         notesTab = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -260,10 +261,6 @@ public class StudentGUI extends javax.swing.JFrame {
 
         homeTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Home"));
 
-        findTutorBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        findTutorBtn.setText("Find Tutor");
-        findTutorBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
         searchTutorBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         searchTutorBtn.setText("Show Open Sessions");
         searchTutorBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -276,6 +273,11 @@ public class StudentGUI extends javax.swing.JFrame {
         findSessionBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         findSessionBtn.setText("Search a Session");
         findSessionBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        findSessionBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findSessionBtnActionPerformed(evt);
+            }
+        });
 
         todoListBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         todoListBtn.setText("To-Do List");
@@ -289,7 +291,6 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(homeSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                    .addComponent(findTutorBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(findSessionBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(todoListBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -300,24 +301,26 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(searchTutorBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(findTutorBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(findSessionBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(todoListBtn)
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        welcomePanel.setBackground(new java.awt.Color(132, 159, 255));
+
+        welcomeLbl.setBackground(new java.awt.Color(51, 51, 51));
         welcomeLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
+        welcomeLbl.setForeground(new java.awt.Color(51, 51, 51));
         welcomeLbl.setText("Welcome, ");
 
         javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
         welcomePanel.setLayout(welcomePanelLayout);
         welcomePanelLayout.setHorizontalGroup(
             welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(welcomePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(welcomeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, welcomePanelLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(welcomeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         welcomePanelLayout.setVerticalGroup(
@@ -332,20 +335,20 @@ public class StudentGUI extends javax.swing.JFrame {
 
         availableSessions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Tutor ID", "Tutor Name", "Sub ID", "Subject Name"
+                "ID", "Tutor ID", "Tutor Name", "Sub ID", "Subject Name", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -367,14 +370,24 @@ public class StudentGUI extends javax.swing.JFrame {
             availableSessions.getColumnModel().getColumn(1).setPreferredWidth(50);
             availableSessions.getColumnModel().getColumn(1).setMaxWidth(50);
             availableSessions.getColumnModel().getColumn(2).setResizable(false);
-            availableSessions.getColumnModel().getColumn(2).setPreferredWidth(300);
+            availableSessions.getColumnModel().getColumn(2).setPreferredWidth(270);
             availableSessions.getColumnModel().getColumn(3).setPreferredWidth(30);
             availableSessions.getColumnModel().getColumn(3).setMaxWidth(30);
             availableSessions.getColumnModel().getColumn(4).setResizable(false);
-            availableSessions.getColumnModel().getColumn(4).setPreferredWidth(300);
+            availableSessions.getColumnModel().getColumn(4).setPreferredWidth(270);
+            availableSessions.getColumnModel().getColumn(5).setResizable(false);
+            availableSessions.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
         homeTabbedPanel.addTab("Open Sessions", searchTutorPane);
+
+        searchTutorTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchTutorTxtKeyTyped(evt);
+            }
+        });
+
+        searchTutorLbl.setText("Search Tutor:");
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
@@ -386,17 +399,30 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(homeTabLayout.createSequentialGroup()
                 .addComponent(homeSideBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(homeTabbedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE))
+                .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(homeTabLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(searchTutorLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchTutorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(homeTabbedPanel)))
         );
         homeTabLayout.setVerticalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeTabLayout.createSequentialGroup()
                 .addComponent(welcomePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(homeSideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(homeTabLayout.createSequentialGroup()
-                        .addComponent(homeTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(homeSideBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchTutorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchTutorLbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(homeTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -1038,10 +1064,10 @@ public class StudentGUI extends javax.swing.JFrame {
     private void searchTutorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTutorBtnActionPerformed
         homeTabbedPanel.setSelectedIndex(0);
         SessionsManager sm = new SessionsManager(); 
-        ArrayList<Sessions> sessionList = sm.sList();
+        ArrayList<Sessions> sessionList = sm.sesList();
         
         DefaultTableModel model = (DefaultTableModel) availableSessions.getModel();
-        Object[] row = new Object[5];
+        Object[] row = new Object[6];
         model.setRowCount(0);
         for (int i = 0; i < sessionList.size(); i++) {
             row[0] = sessionList.get(i).sessionID;
@@ -1049,9 +1075,52 @@ public class StudentGUI extends javax.swing.JFrame {
             row[2] = sessionList.get(i).hostName;
             row[3] = sessionList.get(i).subjectID;
             row[4] = sessionList.get(i).subjectName;
+            row[5] = sessionList.get(i).date;
             model.addRow(row);
         }
     }//GEN-LAST:event_searchTutorBtnActionPerformed
+
+    public void showSearchedItem(String search){
+        SessionsManager sm = new SessionsManager();
+        ArrayList<Sessions> searchList = sm.searchList(search);
+        
+        DefaultTableModel model = (DefaultTableModel) availableSessions.getModel();
+        Object[] row = new Object[6];
+        model.setRowCount(0);
+        
+        for (int i = 0; i < searchList.size(); i++) {
+            row[0] = searchList.get(i).sessionID;
+            row[1] = "000" + searchList.get(i).hostID;
+            row[2] = searchList.get(i).hostName;
+            row[3] = searchList.get(i).subjectID;
+            row[4] = searchList.get(i).subjectName;
+            row[5] = searchList.get(i).date;
+            model.addRow(row);
+        }
+    }
+    
+    private void findSessionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findSessionBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findSessionBtnActionPerformed
+
+    private void searchTutorTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTutorTxtKeyTyped
+        SessionsManager sm = new SessionsManager();
+        ArrayList<Sessions> searchList = sm.searchList(searchTutorTxt.getText());
+        
+        DefaultTableModel model = (DefaultTableModel) availableSessions.getModel();
+        Object[] row = new Object[6];
+        model.setRowCount(0);
+        
+        for (int i = 0; i < searchList.size(); i++) {
+            row[0] = searchList.get(i).sessionID;
+            row[1] = "000" + searchList.get(i).hostID;
+            row[2] = searchList.get(i).hostName;
+            row[3] = searchList.get(i).subjectID;
+            row[4] = searchList.get(i).subjectName;
+            row[5] = searchList.get(i).date;
+            model.addRow(row);
+        }
+    }//GEN-LAST:event_searchTutorTxtKeyTyped
 
     /**
      * @param args the command line arguments
@@ -1087,7 +1156,6 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel emailLbl;
     public javax.swing.JTextField emailTxt;
     private javax.swing.JButton findSessionBtn;
-    private javax.swing.JButton findTutorBtn;
     private javax.swing.JButton homeBtn;
     private javax.swing.JPanel homeSideBar;
     private javax.swing.JPanel homeTab;
@@ -1135,7 +1203,9 @@ public class StudentGUI extends javax.swing.JFrame {
     public javax.swing.JTextField realNameTxt;
     private javax.swing.JButton saveProfileBtn;
     private javax.swing.JButton searchTutorBtn;
+    private javax.swing.JLabel searchTutorLbl;
     private javax.swing.JScrollPane searchTutorPane;
+    private javax.swing.JTextField searchTutorTxt;
     private javax.swing.JLabel settingsIcon;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel settingsTab;

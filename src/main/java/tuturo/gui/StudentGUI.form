@@ -251,7 +251,16 @@
                   <Group type="102" attributes="0">
                       <Component id="homeSideBar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="homeTabbedPanel" pref="851" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="searchTutorLbl" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="searchTutorTxt" min="-2" pref="318" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="homeTabbedPanel" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -259,11 +268,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="welcomePanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="homeSideBar" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="homeTabbedPanel" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="homeSideBar" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace pref="19" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="searchTutorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="searchTutorLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="homeTabbedPanel" min="-2" pref="380" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -281,7 +298,6 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="searchTutorBtn" pref="221" max="32767" attributes="0"/>
-                              <Component id="findTutorBtn" alignment="0" max="32767" attributes="0"/>
                               <Component id="findSessionBtn" alignment="0" max="32767" attributes="0"/>
                               <Component id="todoListBtn" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -295,26 +311,15 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="searchTutorBtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="findTutorBtn" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="findSessionBtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="todoListBtn" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="281" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="findTutorBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="18" style="1"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Find Tutor"/>
-                    <Property name="horizontalAlignment" type="int" value="2"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="searchTutorBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -335,6 +340,9 @@
                     <Property name="text" type="java.lang.String" value="Search a Session"/>
                     <Property name="horizontalAlignment" type="int" value="2"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findSessionBtnActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="todoListBtn">
                   <Properties>
@@ -348,13 +356,18 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="welcomePanel">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="9f" red="84" type="rgb"/>
+                </Property>
+              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="welcomeLbl" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
+                          <Component id="welcomeLbl" min="-2" pref="1060" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -372,8 +385,14 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="welcomeLbl">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="33" green="33" red="33" type="rgb"/>
+                    </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="48" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="33" green="33" red="33" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Welcome, "/>
                   </Properties>
@@ -406,12 +425,13 @@
                     <Component class="javax.swing.JTable" name="availableSessions">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="5" rowCount="4">
+                          <Table columnCount="6" rowCount="4">
                             <Column editable="false" title="ID" type="java.lang.Integer"/>
                             <Column editable="false" title="Tutor ID" type="java.lang.Integer"/>
                             <Column editable="false" title="Tutor Name" type="java.lang.String"/>
                             <Column editable="false" title="Sub ID" type="java.lang.Integer"/>
                             <Column editable="false" title="Subject Name" type="java.lang.String"/>
+                            <Column editable="true" title="Date" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -426,7 +446,7 @@
                               <Editor/>
                               <Renderer/>
                             </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="300" resizable="false">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="270" resizable="false">
                               <Title/>
                               <Editor/>
                               <Renderer/>
@@ -436,7 +456,12 @@
                               <Editor/>
                               <Renderer/>
                             </Column>
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="300" resizable="false">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="270" resizable="false">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="false">
                               <Title/>
                               <Editor/>
                               <Renderer/>
@@ -457,6 +482,16 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JTextField" name="searchTutorTxt">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchTutorTxtKeyTyped"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="searchTutorLbl">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Search Tutor:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="notesTab">

@@ -11,14 +11,20 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import tuturo.database.*;
 import tuturo.manager.SessionsManager;
 import tuturo.manager.SubjectsManager;
 import tuturo.manager.UsersManager;
+import tuturo.model.HostSessions;
+import tuturo.model.Sessions;
+import tuturo.model.Subjects;
 import tuturo.othergui.ProgressTrackGUI;
 
 /**
@@ -54,6 +60,8 @@ public class TutorGUI extends javax.swing.JFrame {
         buttonsPanel = new javax.swing.JPanel();
         csSideBarBtn = new javax.swing.JButton();
         shSideBarBtn = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         welcomePanel = new javax.swing.JPanel();
         welcomeLbl = new javax.swing.JLabel();
         homeTabbedPane = new javax.swing.JTabbedPane();
@@ -71,6 +79,7 @@ public class TutorGUI extends javax.swing.JFrame {
         separator1 = new javax.swing.JSeparator();
         subjectComboBox = new JComboBox();
         subject2Lbl = new javax.swing.JLabel();
+        separator2 = new javax.swing.JSeparator();
         attendeesPanel = new javax.swing.JPanel();
         bottomBar = new javax.swing.JPanel();
         createSessionBtn = new javax.swing.JButton();
@@ -278,6 +287,20 @@ public class TutorGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("subjectID");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("LocalDate");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
         buttonsPanel.setLayout(buttonsPanelLayout);
         buttonsPanelLayout.setHorizontalGroup(
@@ -288,6 +311,12 @@ public class TutorGUI extends javax.swing.JFrame {
                     .addComponent(csSideBarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(shSideBarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(898, 898, 898))
+            .addGroup(buttonsPanelLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,17 +325,27 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addComponent(csSideBarBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(shSideBarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(144, 144, 144)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        welcomePanel.setBackground(new java.awt.Color(132, 159, 255));
+
         welcomeLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
+        welcomeLbl.setForeground(new java.awt.Color(51, 51, 51));
         welcomeLbl.setText("Welcome,");
 
         javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
         welcomePanel.setLayout(welcomePanelLayout);
         welcomePanelLayout.setHorizontalGroup(
             welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(welcomeLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, welcomePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(welcomeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         welcomePanelLayout.setVerticalGroup(
             welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,34 +390,36 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingPanelLayout.createSequentialGroup()
-                        .addComponent(subject2Lbl)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(settingPanelLayout.createSequentialGroup()
-                        .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(subjectComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(separator1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(subjectLbl, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingPanelLayout.createSequentialGroup()
-                                .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameLbl)
-                                    .addComponent(name2Lbl)
-                                    .addComponent(sessionNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(durationSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addGroup(settingPanelLayout.createSequentialGroup()
+                        .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(subjectComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(subjectLbl, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, settingPanelLayout.createSequentialGroup()
                                         .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(dateLbl)
-                                            .addComponent(schedLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                            .addComponent(nameLbl)
+                                            .addComponent(name2Lbl)
+                                            .addComponent(sessionNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(durationSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                            .addGroup(settingPanelLayout.createSequentialGroup()
+                                                .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(dateLbl)
+                                                    .addComponent(schedLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(subject2Lbl)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(separator2))
+                .addContainerGap())
         );
         settingPanelLayout.setVerticalGroup(
             settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingPanelLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingPanelLayout.createSequentialGroup()
+                    .addGroup(settingPanelLayout.createSequentialGroup()
                         .addComponent(schedLbl)
                         .addGap(18, 18, 18)
                         .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -387,19 +428,19 @@ public class TutorGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(sessionNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(durationSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingPanelLayout.createSequentialGroup()
-                        .addComponent(name2Lbl)
-                        .addGap(83, 83, 83)))
+                            .addComponent(durationSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(name2Lbl))
+                .addGap(18, 18, 18)
                 .addComponent(separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(subject2Lbl)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(subjectLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(subjectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(separator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         createSessionSettingsPanel.addTab("Settings", settingPanel);
@@ -460,13 +501,12 @@ public class TutorGUI extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "SubID", "Subject", "Schedule"
+                "SubID", "Lesson", "Subject", "Date"
             }
         ));
         jScrollPane4.setViewportView(tutorSessionsTable);
         if (tutorSessionsTable.getColumnModel().getColumnCount() > 0) {
             tutorSessionsTable.getColumnModel().getColumn(0).setMaxWidth(30);
-            tutorSessionsTable.getColumnModel().getColumn(1).setMaxWidth(30);
         }
 
         jLabel4.setText("Your Sessions");
@@ -512,8 +552,9 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(createSessionSettingsPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bottomBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(sessionSearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(bottomBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(sessionSearchPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         homeTabbedPane.addTab("Create Sessions", createSessionPanel);
@@ -536,13 +577,12 @@ public class TutorGUI extends javax.swing.JFrame {
         homeTabLayout.setHorizontalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(homeTabLayout.createSequentialGroup()
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(homeTabbedPane))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
+                .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         homeTabLayout.setVerticalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1063,28 +1103,49 @@ public class TutorGUI extends javax.swing.JFrame {
 
     private void createSessionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSessionBtnActionPerformed
         SessionsManager sm = new SessionsManager();
+        SubjectsManager sb = new SubjectsManager();
+        
         int hostID = Integer.parseInt(accIDHolder.getText());
         if (sessionNameTxt.getText().equals("") || subjectComboBox.getSelectedItem().equals("-")) {
             JOptionPane.showMessageDialog(this, "ERROR: Incomplete Details.");
         }
         else {
             String name = sessionNameTxt.getText();
-            String subject = subjectComboBox.getSelectedItem().toString();
+            String subjectName = subjectComboBox.getSelectedItem().toString();
             int duration = (Integer) durationSpinner.getValue();
             
-            sm.createSession(hostID, duration, subject);
-            sm.showCreatedSession();
+            sm.createSession(hostID, duration, subjectName, name); 
+            JOptionPane.showMessageDialog(null, "Session "+name+" for course \""+subjectName+"\" successfully created.");
+            
+            ArrayList<HostSessions> hostSessionsList = sm.getTutorSession(hostID);
 
-//            System.out.println(new SimpleDateFormat("MMMM/dd/yyyy").format(dateSpinner.getValue()));
-//            JOptionPane.showMessageDialog(null, name + subject + new SimpleDateFormat("MMMM-dd-yyyy").format(dateSpinner.getValue()));
-            
-            
+            DefaultTableModel model = (DefaultTableModel) tutorSessionsTable.getModel();
+            Object[] row = new Object[4];
+            model.setRowCount(0);
+            for(int i = 0; i < hostSessionsList.size(); i++) {
+                row[0] = hostSessionsList.get(i).subjectID;
+                row[1] = hostSessionsList.get(i).sessionName;
+                row[2] = hostSessionsList.get(i).subjectName;
+                row[3] = hostSessionsList.get(i).date;
+                model.addRow(row);
+            }
         }
     }//GEN-LAST:event_createSessionBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
 //        setVisible(false);
     }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SubjectsManager subman = new SubjectsManager();
+        String subject = subjectComboBox.getSelectedItem().toString();
+        JOptionPane.showMessageDialog(this, subject + subman.getSubjectID(subject));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        LocalDate date = LocalDate.now();
+        JOptionPane.showMessageDialog(null, date);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1132,6 +1193,8 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1160,6 +1223,7 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JButton saveProfileBtn;
     private javax.swing.JLabel schedLbl;
     private javax.swing.JSeparator separator1;
+    private javax.swing.JSeparator separator2;
     private javax.swing.JTextField sessionNameTxt;
     private javax.swing.JPanel sessionSearchPanel;
     private javax.swing.JPanel sessionsTab;

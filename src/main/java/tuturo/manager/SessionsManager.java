@@ -13,16 +13,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import tuturo.database.MSSQLConnection;
-import tuturo.gui.StudentGUI;
 import tuturo.gui.TutorGUI;
-import tuturo.model.Accounts;
 import tuturo.model.HostSessions;
 import tuturo.model.Sessions;
-import tuturo.model.Subjects;
-import tuturo.othergui.SessionCreateGUI;
 
 public class SessionsManager {
     MSSQLConnection msql = new MSSQLConnection();
@@ -68,9 +62,7 @@ public class SessionsManager {
             msql.connect();
             Statement st = msql.connect().createStatement();
 
-            String query = "SELECT * FROM Session "
-                         + "INNER JOIN Accounts ON Session.host_id = Accounts.account_id "
-                         + "INNER JOIN Subject ON Session.subject_id = Subject.subject_id";
+            String query = "SELECT * FROM Session";
             
             ResultSet rs = st.executeQuery(query);
 
@@ -114,9 +106,8 @@ public class SessionsManager {
     public ArrayList<Sessions> searchList(String search) {
         ArrayList<Sessions> serichList = new ArrayList<>();
         try {
-            String searchQuery = "SELECT * FROM Accounts "
-                                + "INNER JOIN Session ON Accounts.account_id = Session.host_id "
-                                + "WHERE Session.account_type = 'Tutor' "
+            String searchQuery = "SELECT * FROM Accounts, Users, Session "
+                                + "WHERE (Accounts.account_id = Session.host_id, OR Accounts.account_type = 'Tutor') "
                                 + "AND Accounts.real_name LIKE '%"+search+"%'";
             
             Statement st = msql.connect().createStatement();

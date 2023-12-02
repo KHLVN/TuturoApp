@@ -4,18 +4,27 @@
  */
 package tuturo.gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 import tuturo.login.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.*;
+import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import tuturo.manager.SessionsManager;
 import tuturo.manager.UsersManager;
 import tuturo.model.Sessions;
 import tuturo.othergui.AboutUsGUI;
-import tuturo.othergui.NotesSearchFile;
-import tuturo.othergui.TreeFileSystem;
 
 /**
  *
@@ -68,6 +77,18 @@ public class StudentGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         openNotesBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        notesTxtArea = new javax.swing.JTextArea();
+        saveNotesBtn = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        colorTxtBtn = new javax.swing.JButton();
+        fontBox = new javax.swing.JComboBox(fonts);
+        fontColorlbl = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         commTab = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -442,20 +463,90 @@ public class StudentGUI extends javax.swing.JFrame {
             }
         });
 
+        notesTxtArea.setColumns(20);
+        notesTxtArea.setLineWrap(true);
+        notesTxtArea.setRows(5);
+        jScrollPane1.setViewportView(notesTxtArea);
+
+        saveNotesBtn.setText("Save");
+        saveNotesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveNotesBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Save your Notes");
+
+        jLabel15.setText("Recent Notes:");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(20, 1, 100, 1));
+        jSpinner1.addChangeListener(new ChangeListener(){
+
+            public void stateChanged(ChangeEvent e) {
+                notesTxtArea.setFont(new Font(notesTxtArea.getFont().getFamily(), Font.PLAIN,(int) jSpinner1.getValue()));
+            }
+        });
+
+        colorTxtBtn.setText("Color");
+        colorTxtBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorTxtBtnActionPerformed(evt);
+            }
+        });
+
+        fontBox.setSelectedItem("Arial");
+        notesTxtArea.setFont(new Font((String)fontBox.getSelectedItem(), Font.PLAIN, notesTxtArea.getFont().getSize()));
+
+        fontColorlbl.setText("Color");
+
+        jLabel16.setText("Size:");
+
+        jLabel17.setText("Font:");
+
+        jLabel18.setText("apply tree traversal on selecting files here");
+
         javax.swing.GroupLayout notesTabLayout = new javax.swing.GroupLayout(notesTab);
         notesTab.setLayout(notesTabLayout);
         notesTabLayout.setHorizontalGroup(
             notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(notesTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(notesTabLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, notesTabLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(838, 838, 838))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, notesTabLayout.createSequentialGroup()
+                        .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(openNotesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveNotesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(notesTabLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(openNotesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(notesTabLayout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(0, 164, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, notesTabLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel18)))
+                        .addGap(18, 18, 18)
+                        .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(notesTabLayout.createSequentialGroup()
+                                .addComponent(fontColorlbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(colorTxtBtn)
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         notesTabLayout.setVerticalGroup(
@@ -463,10 +554,30 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(notesTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addGap(44, 44, 44)
+                .addGap(18, 18, 18)
                 .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(openNotesBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(saveNotesBtn))
+                .addGap(7, 7, 7)
+                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fontColorlbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(colorTxtBtn)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(notesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(notesTabLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(64, 64, 64)
+                        .addComponent(jLabel18)
+                        .addGap(0, 332, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -660,31 +771,27 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(profileDetails2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bioLbl)
+                    .addComponent(accIDLbl)
                     .addComponent(addressLbl)
-                    .addComponent(accIDLbl))
+                    .addComponent(bioLbl))
                 .addGap(40, 40, 40)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(accIDHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
         );
         profileDetails2Layout.setVerticalGroup(
             profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profileDetails2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bioLbl)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(profileDetails2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(addressLbl))
-                    .addGroup(profileDetails2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bioLbl))
                 .addGap(18, 18, 18)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(accIDLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -694,11 +801,6 @@ public class StudentGUI extends javax.swing.JFrame {
 
         saveProfileBtn.setText("Save Changes");
         saveProfileBtn.setEnabled(false);
-        saveProfileBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                saveProfileBtnMouseClicked(evt);
-            }
-        });
         saveProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveProfileBtnActionPerformed(evt);
@@ -1003,13 +1105,10 @@ public class StudentGUI extends javax.swing.JFrame {
         realNameTxt.setEnabled(true);
         emailTxt.setEnabled(true);
         saveProfileBtn.setEnabled(true);
+        addressTxt.setEnabled(true);
         discardProfileBtn.setEnabled(true);
 
     }//GEN-LAST:event_editProfileBtnActionPerformed
-
-    private void saveProfileBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveProfileBtnMouseClicked
-        
-    }//GEN-LAST:event_saveProfileBtnMouseClicked
 
     private void discardProfileBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_discardProfileBtnMouseClicked
         usernameTxt.setEnabled(false);
@@ -1023,9 +1122,10 @@ public class StudentGUI extends javax.swing.JFrame {
         String username = usernameTxt.getText();
         String realname = realNameTxt.getText();
         String email = emailTxt.getText();
+        String address = addressTxt.getText();
         String accID = accIDHolder.getText();
 
-        um.updateProfile(username, realname, email, accID);
+        um.updateProfile(username, realname, email, address, accID);
         JOptionPane.showMessageDialog(null, "Profile Updated Successfully");
 
         usernameTxt.setEnabled(false);
@@ -1033,6 +1133,7 @@ public class StudentGUI extends javax.swing.JFrame {
         emailTxt.setEnabled(false);
         saveProfileBtn.setEnabled(false);
         discardProfileBtn.setEnabled(false);
+        addressTxt.setEnabled(false);
     }//GEN-LAST:event_saveProfileBtnActionPerformed
 
     private void closePanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closePanelMouseClicked
@@ -1044,8 +1145,22 @@ public class StudentGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_settingsPanelMouseClicked
 
     private void openNotesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openNotesBtnActionPerformed
-        TreeFileSystem open = new TreeFileSystem();
-        open.setVisible(true);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("."));
+        
+        int resp = fileChooser.showOpenDialog(null);
+        if(resp == JFileChooser.OPEN_DIALOG) {
+            try {
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                Scanner textReader = new Scanner(file);
+                while(textReader.hasNextLine()) {
+                    String data = textReader.nextLine();
+                    notesTxtArea.setText(data);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(StudentGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_openNotesBtnActionPerformed
 
     private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
@@ -1122,9 +1237,37 @@ public class StudentGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchTutorTxtKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
+    private void saveNotesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveNotesBtnActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("."));
+        
+        int resp = fileChooser.showSaveDialog(null);
+        if(resp == JFileChooser.APPROVE_OPTION) {
+            File file;
+            PrintWriter fileOut = null;
+            try {
+                file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                fileOut = new PrintWriter(file);
+                fileOut.println(notesTxtArea.getText());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(StudentGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally {
+                fileOut.close();
+            }
+        }
+    }//GEN-LAST:event_saveNotesBtnActionPerformed
+
+    private void colorTxtBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorTxtBtnActionPerformed
+        JColorChooser colorChooser = new JColorChooser();
+        
+        Color color = colorChooser.showDialog(null, "Choose Text Color", Color.WHITE);
+        notesTxtArea.setForeground(color);
+    }//GEN-LAST:event_colorTxtBtnActionPerformed
+
+    String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); 
+    
+    
     public static void main(String args[]) throws SQLException {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1148,6 +1291,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel changePassLbl;
     private javax.swing.JLabel closeIcon1;
     private javax.swing.JPanel closePanel;
+    private javax.swing.JButton colorTxtBtn;
     private javax.swing.JPanel commTab;
     private javax.swing.JButton communityBtn;
     public javax.swing.JLabel dateJoinedLbl;
@@ -1156,6 +1300,8 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel emailLbl;
     public javax.swing.JTextField emailTxt;
     private javax.swing.JButton findSessionBtn;
+    private javax.swing.JComboBox<String> fontBox;
+    private javax.swing.JLabel fontColorlbl;
     private javax.swing.JButton homeBtn;
     private javax.swing.JPanel homeSideBar;
     private javax.swing.JPanel homeTab;
@@ -1177,21 +1323,29 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel logoutIcon;
     private javax.swing.JPanel logoutPanel;
     private javax.swing.JButton notesBtn;
     private javax.swing.JPanel notesTab;
+    private javax.swing.JTextArea notesTxtArea;
     private javax.swing.JButton openNotesBtn;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel profileDetails;
@@ -1201,6 +1355,7 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profilePicture;
     private javax.swing.JPanel profileTab;
     public javax.swing.JTextField realNameTxt;
+    private javax.swing.JButton saveNotesBtn;
     private javax.swing.JButton saveProfileBtn;
     private javax.swing.JButton searchTutorBtn;
     private javax.swing.JLabel searchTutorLbl;

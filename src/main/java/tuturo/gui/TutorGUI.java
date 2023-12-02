@@ -818,14 +818,13 @@ public class TutorGUI extends javax.swing.JFrame {
             .addGroup(profileDetails2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bioLbl)
                     .addComponent(addressLbl)
-                    .addComponent(accIDLbl))
+                    .addComponent(accIDLbl)
+                    .addComponent(bioLbl))
                 .addGap(40, 40, 40)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(accIDHolder, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -833,21 +832,18 @@ public class TutorGUI extends javax.swing.JFrame {
             profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profileDetails2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bioLbl)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(profileDetails2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(addressLbl))
-                    .addGroup(profileDetails2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(17, 17, 17)
                 .addGroup(profileDetails2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(accIDLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(accIDHolder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         saveProfileBtn.setText("Save Changes");
@@ -1025,6 +1021,7 @@ public class TutorGUI extends javax.swing.JFrame {
 
     private void editProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileBtnActionPerformed
         usernameTxt.setEnabled(true);
+        addressTxt.setEnabled(true);
         realNameTxt.setEnabled(true);
         emailTxt.setEnabled(true);
         saveProfileBtn.setEnabled(true);
@@ -1072,10 +1069,11 @@ public class TutorGUI extends javax.swing.JFrame {
         String username = usernameTxt.getText();
         String realname = realNameTxt.getText();
         String email = emailTxt.getText();
+        String address = addressTxt.getText();
         String accID = accIDHolder.getText();
         
         
-        um.updateProfile(username, realname, email, accID);
+        um.updateProfile(username, realname, email, address, accID);
         JOptionPane.showMessageDialog(null, "Profile Updated Successfully");
         
         usernameTxt.setEnabled(false);

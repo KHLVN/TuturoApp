@@ -27,8 +27,10 @@ public class UsersManager {
             
             switch (role) {
                 case "Student" -> {
-                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Student' ,'"+phone_no+"','"+email+"','"+password+"', '"+date+"')";
+                    insertQuery = "INSERT INTO Users(username, real_name, account_type, contact_number, email) "
+                                + "VALUES('"+username+"','"+fullName+"', 'Student' ,'"+phone_no+"','"+email+"') "
+                                + "UPDATE Accounts SET password = '"+password+"', date_created = '"+date+"' WHERE username = '"+username+"'";
+                    
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -36,8 +38,10 @@ public class UsersManager {
                 }
                     
                 case "Tutor" -> {
-                    insertQuery = "INSERT INTO Accounts(real_name, username, account_type, contact_number, email, password, date_created) "
-                                + "VALUES('"+fullName+"','"+username+"', 'Tutor' ,'"+phone_no+"','"+email+"','"+password+"', '"+date+"')";
+                    insertQuery = "INSERT INTO Users(username, real_name, account_type, contact_number, email) "
+                                + "VALUES('"+username+"','"+fullName+"', 'Tutor' ,'"+phone_no+"','"+email+"') "
+                                + "UPDATE Accounts SET password = '"+password+"', date_created = '"+date+"' WHERE username = '"+username+"'";
+                    
                     statement = msql.connect().createStatement();
                     statement.execute(insertQuery);
                     msql.connect().close();
@@ -56,42 +60,46 @@ public class UsersManager {
     
     public Boolean loginUser(String username, String password) {
         msql.connect();
-        String loginQuery = "SELECT * FROM Accounts WHERE username='"+username+"' AND password='"+password+"'";
+        StudentGUI st = new StudentGUI();
+        TutorGUI tu = new TutorGUI();
+        String loginQuery = "SELECT * FROM Accounts WHERE Accounts.username='"+username+"' AND password='"+password+"'";
+        String loginQuery1 = "SELECT * FROM Users WHERE username='"+username+"'";
         
         try {
             Statement statement = msql.connect().createStatement();
+            Statement statement1 = msql.connect().createStatement();
             rs = statement.executeQuery(loginQuery);
-            if (rs.next()) {
+            rs1 = statement1.executeQuery(loginQuery1);
+            if (rs.next() && rs1.next()) {
                 System.out.println("user ID: "+ rs.getString("account_id"));
                 System.out.println("Account Type: " + rs.getString("account_type"));
                 
                 switch(rs.getString("account_type")) {
                     case "Student":
                         JOptionPane.showMessageDialog(null, "Login Successful");
-                        StudentGUI st = new StudentGUI();
+                        
                         st.setVisible(true);
-                        st.welcomeLbl.setText("Welcome, " + rs.getString("real_name"));
-                        st.welcomeProfileLbl.setText("Hello, " + rs.getString("real_name"));
-                        st.profileNameLbl.setText(rs.getString("real_name"));
+                        st.welcomeLbl.setText("Welcome, " + rs1.getString("real_name"));
+                        st.welcomeProfileLbl.setText("Hello, " + rs1.getString("real_name"));
+                        st.profileNameLbl.setText(rs1.getString("real_name"));
                         st.usernameTxt.setText(rs.getString("username"));
-                        st.realNameTxt.setText(rs.getString("real_name"));
-                        st.emailTxt.setText(rs.getString("email"));
+                        st.realNameTxt.setText(rs1.getString("real_name"));
+                        st.emailTxt.setText(rs1.getString("email"));
                         st.accIDHolder.setText(rs.getString("account_id"));
                         st.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
                         
                     case "Tutor":
                         JOptionPane.showMessageDialog(null, "Login Successful");
-                        TutorGUI tu = new TutorGUI();
                         SubjectsManager sm = new SubjectsManager();
                         tu.setVisible(true);
                         sm.addSubjects(tu.subjectComboBox);
-                        tu.welcomeLbl.setText("Welcome, " + rs.getString("real_name"));
-                        tu.welcomeProfileLbl.setText("Hello, " + rs.getString("real_name"));
-                        tu.profileNameLbl.setText(rs.getString("real_name"));
+                        tu.welcomeLbl.setText("Welcome, " + rs1.getString("real_name"));
+                        tu.welcomeProfileLbl.setText("Hello, " + rs1.getString("real_name"));
+                        tu.profileNameLbl.setText(rs1.getString("real_name"));
                         tu.usernameTxt.setText(rs.getString("username"));
-                        tu.realNameTxt.setText(rs.getString("real_name"));
-                        tu.emailTxt.setText(rs.getString("email"));
+                        tu.realNameTxt.setText(rs1.getString("real_name"));
+                        tu.emailTxt.setText(rs1.getString("email"));
                         tu.accIDHolder.setText(rs.getString("account_id"));
                         tu.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
@@ -106,18 +114,17 @@ public class UsersManager {
         return true;
     }
     
-    public void updateProfile(String username, String realname, String email, String accID){
+    public void updateProfile(String username, String realname, String email, String address, String accID){
         msql.connect();
-        
-        System.out.println(username + realname + email + accID);
         
         try {
             
-            String updateQuery = "UPDATE Accounts SET"
-                    + " username='"+username+"',"
-                    + " real_name='"+realname+"',"
-                    + " email='"+email+"'"
-                    + " WHERE account_id="+accID;
+            String updateQuery = "UPDATE Users SET"
+                    + " username = '"+username+"',"
+                    + " real_name = '"+realname+"',"
+                    + " email = '"+email+"',"
+                    + " address = '"+address+"'"
+                    + " WHERE user_id = "+accID;
             Statement st = msql.connect().createStatement();
             rs = st.executeQuery(updateQuery);
         }

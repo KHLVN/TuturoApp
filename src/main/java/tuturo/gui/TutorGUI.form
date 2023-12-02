@@ -1310,16 +1310,14 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="bioLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="addressLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="accIDLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bioLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jScrollPane3" min="-2" pref="356" max="-2" attributes="0"/>
-                                      <Component id="addressTxt" min="-2" pref="356" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jScrollPane3" min="-2" pref="356" max="-2" attributes="0"/>
+                                  <Component id="addressTxt" min="-2" pref="356" max="-2" attributes="0"/>
                                   <Component id="accIDHolder" min="-2" pref="20" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -1330,26 +1328,21 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="addressTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="addressLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="bioLbl" min="-2" max="-2" attributes="0"/>
                                   <Component id="jScrollPane3" min="-2" pref="75" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                                      <Component id="addressLbl" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="addressTxt" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="accIDLbl" max="32767" attributes="0"/>
                                   <Component id="accIDHolder" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="93" max="32767" attributes="0"/>
+                              <EmptySpace pref="94" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

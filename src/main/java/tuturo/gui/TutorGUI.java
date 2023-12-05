@@ -4,28 +4,25 @@
  */
 package tuturo.gui;
 
-import tuturo.othergui.SessionCreateGUI;
+
 import javax.swing.JOptionPane;
 import tuturo.login.*;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import tuturo.database.*;
 import tuturo.manager.SessionsManager;
 import tuturo.manager.SubjectsManager;
 import tuturo.manager.UsersManager;
 import tuturo.model.HostSessions;
-import tuturo.model.Sessions;
-import tuturo.model.Subjects;
-import tuturo.othergui.ProgressTrackGUI;
+
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import tuturo.othergui.SessionChart;
 
 /**
  *
@@ -33,6 +30,8 @@ import tuturo.othergui.ProgressTrackGUI;
  */
 public class TutorGUI extends javax.swing.JFrame {
     UsersManager um = new UsersManager();
+    SessionsManager sm = new SessionsManager();
+    SessionChart sc = new SessionChart();
     Statement statement;
     Connection conn;
     /**
@@ -48,7 +47,6 @@ public class TutorGUI extends javax.swing.JFrame {
 
         tutorSidePanel = new javax.swing.JPanel();
         homeBtn = new javax.swing.JButton();
-        progressTrackBtn = new javax.swing.JButton();
         communityBtn = new javax.swing.JButton();
         profileBtn = new javax.swing.JButton();
         logoutPanel = new javax.swing.JPanel();
@@ -59,12 +57,12 @@ public class TutorGUI extends javax.swing.JFrame {
         homeTab = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
         csSideBarBtn = new javax.swing.JButton();
-        shSideBarBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        dateNowLbl = new javax.swing.JLabel();
         welcomePanel = new javax.swing.JPanel();
         welcomeLbl = new javax.swing.JLabel();
         homeTabbedPane = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         createSessionPanel = new javax.swing.JPanel();
         titlePaneLbl = new javax.swing.JLabel();
         createSessionSettingsPanel = new javax.swing.JTabbedPane();
@@ -88,9 +86,9 @@ public class TutorGUI extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tutorSessionsTable = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        summaryPanel = new javax.swing.JPanel();
         sessionsTab = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         commTab = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -127,6 +125,7 @@ public class TutorGUI extends javax.swing.JFrame {
         discardProfileBtn = new javax.swing.JButton();
         dateJoinedLbl = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        changePicBtn = new javax.swing.JButton();
         settingsTab = new javax.swing.JPanel();
         closePanel = new javax.swing.JPanel();
         closeIcon1 = new javax.swing.JLabel();
@@ -140,21 +139,12 @@ public class TutorGUI extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-home.png"))); // NOI18N
-        homeBtn.setText("Home");
+        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-track.png"))); // NOI18N
+        homeBtn.setText("Sessions");
         homeBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         homeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeBtnActionPerformed(evt);
-            }
-        });
-
-        progressTrackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-track.png"))); // NOI18N
-        progressTrackBtn.setText("Progress Tracker");
-        progressTrackBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        progressTrackBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                progressTrackBtnActionPerformed(evt);
             }
         });
 
@@ -209,7 +199,6 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addGroup(tutorSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(profileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(homeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(progressTrackBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(communityBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                     .addComponent(logoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -220,12 +209,10 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(homeBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(progressTrackBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(communityBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profileBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 486, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 523, Short.MAX_VALUE)
                 .addComponent(logoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -276,30 +263,18 @@ public class TutorGUI extends javax.swing.JFrame {
             }
         });
 
-        shSideBarBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        shSideBarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-history.png"))); // NOI18N
-        shSideBarBtn.setText("Session History");
-        shSideBarBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        shSideBarBtn.setPreferredSize(new java.awt.Dimension(75, 32));
-        shSideBarBtn.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dark/light-home.png"))); // NOI18N
+        jButton4.setText("Home");
+        jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shSideBarBtnActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("subjectID");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("LocalDate");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        dateNowLbl.setText("dateToday");
+        dateNowLbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
         buttonsPanel.setLayout(buttonsPanelLayout);
@@ -308,28 +283,20 @@ public class TutorGUI extends javax.swing.JFrame {
             .addGroup(buttonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(csSideBarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(shSideBarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(898, 898, 898))
-            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(dateNowLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(csSideBarBtn)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(shSideBarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(144, 144, 144)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(csSideBarBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dateNowLbl))
         );
 
         welcomePanel.setBackground(new java.awt.Color(132, 159, 255));
@@ -356,6 +323,19 @@ public class TutorGUI extends javax.swing.JFrame {
         );
 
         homeTabbedPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 880, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 398, Short.MAX_VALUE)
+        );
+
+        homeTabbedPane.addTab("Home", jPanel1);
 
         titlePaneLbl.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
         titlePaneLbl.setText("Create Session");
@@ -559,19 +539,6 @@ public class TutorGUI extends javax.swing.JFrame {
 
         homeTabbedPane.addTab("Create Sessions", createSessionPanel);
 
-        javax.swing.GroupLayout summaryPanelLayout = new javax.swing.GroupLayout(summaryPanel);
-        summaryPanel.setLayout(summaryPanelLayout);
-        summaryPanelLayout.setHorizontalGroup(
-            summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        summaryPanelLayout.setVerticalGroup(
-            summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        homeTabbedPane.addTab("Session History", summaryPanel);
-
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
         homeTabLayout.setHorizontalGroup(
@@ -600,24 +567,33 @@ public class TutorGUI extends javax.swing.JFrame {
 
         sessionsTab.setBorder(javax.swing.BorderFactory.createTitledBorder("Summary"));
 
-        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 48)); // NOI18N
         jLabel5.setText("Progress Tracker");
+
+        jLabel1.setText("Under Construction");
 
         javax.swing.GroupLayout sessionsTabLayout = new javax.swing.GroupLayout(sessionsTab);
         sessionsTab.setLayout(sessionsTabLayout);
         sessionsTabLayout.setHorizontalGroup(
             sessionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sessionsTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(776, Short.MAX_VALUE))
+            .addGroup(sessionsTabLayout.createSequentialGroup()
+                .addGroup(sessionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sessionsTabLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(sessionsTabLayout.createSequentialGroup()
+                        .addGap(485, 485, 485)
+                        .addComponent(jLabel1)))
+                .addContainerGap(501, Short.MAX_VALUE))
         );
         sessionsTabLayout.setVerticalGroup(
             sessionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sessionsTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(552, Short.MAX_VALUE))
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(260, 260, 260))
         );
 
         MainTabbedPane.addTab("", sessionsTab);
@@ -753,6 +729,7 @@ public class TutorGUI extends javax.swing.JFrame {
         changePassLbl.setText("Password");
 
         jButton1.setText("Change Password");
+        jButton1.setEnabled(false);
 
         javax.swing.GroupLayout profileDetailsLayout = new javax.swing.GroupLayout(profileDetails);
         profileDetails.setLayout(profileDetailsLayout);
@@ -866,6 +843,9 @@ public class TutorGUI extends javax.swing.JFrame {
 
         jLabel2.setText("Date Created");
 
+        changePicBtn.setText("Change Profile Photo");
+        changePicBtn.setEnabled(false);
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
@@ -873,16 +853,17 @@ public class TutorGUI extends javax.swing.JFrame {
             .addGroup(profilePanelLayout.createSequentialGroup()
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(profilePanelLayout.createSequentialGroup()
-                        .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(editProfileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(profilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(editProfileBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                            .addComponent(profilePicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(profilePanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addGroup(profilePanelLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
-                                        .addComponent(dateJoinedLbl)))))
+                                        .addComponent(dateJoinedLbl))))
+                            .addComponent(changePicBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(profileDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -909,14 +890,16 @@ public class TutorGUI extends javax.swing.JFrame {
                 .addComponent(profileNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profileDetails2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(profilePanelLayout.createSequentialGroup()
+                        .addComponent(changePicBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editProfileBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateJoinedLbl)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(profileDetails2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(discardProfileBtn)
@@ -1037,10 +1020,6 @@ public class TutorGUI extends javax.swing.JFrame {
         MainTabbedPane.setSelectedIndex(0);
     }//GEN-LAST:event_homeBtnActionPerformed
 
-    private void progressTrackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_progressTrackBtnActionPerformed
-        MainTabbedPane.setSelectedIndex(1);
-    }//GEN-LAST:event_progressTrackBtnActionPerformed
-
     private void communityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_communityBtnActionPerformed
         MainTabbedPane.setSelectedIndex(2);
     }//GEN-LAST:event_communityBtnActionPerformed
@@ -1081,6 +1060,7 @@ public class TutorGUI extends javax.swing.JFrame {
         emailTxt.setEnabled(false);
         saveProfileBtn.setEnabled(false);
         discardProfileBtn.setEnabled(false);
+        addressTxt.setEnabled(false);
     }//GEN-LAST:event_saveProfileBtnActionPerformed
 
     private void logoutPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutPanelMouseClicked
@@ -1091,18 +1071,18 @@ public class TutorGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutPanelMouseClicked
 
-    private void shSideBarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shSideBarBtnActionPerformed
-        homeTabbedPane.setSelectedIndex(1);
-    }//GEN-LAST:event_shSideBarBtnActionPerformed
-
     private void csSideBarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csSideBarBtnActionPerformed
-        homeTabbedPane.setSelectedIndex(0);
+        homeTabbedPane.setSelectedIndex(1);
     }//GEN-LAST:event_csSideBarBtnActionPerformed
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        //        setVisible(false);
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void createSessionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSessionBtnActionPerformed
         SessionsManager sm = new SessionsManager();
         SubjectsManager sb = new SubjectsManager();
-        
+
         int hostID = Integer.parseInt(accIDHolder.getText());
         if (sessionNameTxt.getText().equals("") || subjectComboBox.getSelectedItem().equals("-")) {
             JOptionPane.showMessageDialog(this, "ERROR: Incomplete Details.");
@@ -1111,10 +1091,10 @@ public class TutorGUI extends javax.swing.JFrame {
             String name = sessionNameTxt.getText();
             String subjectName = subjectComboBox.getSelectedItem().toString();
             int duration = (Integer) durationSpinner.getValue();
-            
-            sm.createSession(hostID, duration, subjectName, name); 
+
+            sm.createSession(hostID, duration, subjectName, name);
             JOptionPane.showMessageDialog(null, "Session "+name+" for course \""+subjectName+"\" successfully created.");
-            
+
             ArrayList<HostSessions> hostSessionsList = sm.getTutorSession(hostID);
 
             DefaultTableModel model = (DefaultTableModel) tutorSessionsTable.getModel();
@@ -1130,20 +1110,9 @@ public class TutorGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_createSessionBtnActionPerformed
 
-    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-//        setVisible(false);
-    }//GEN-LAST:event_cancelBtnActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SubjectsManager subman = new SubjectsManager();
-        String subject = subjectComboBox.getSelectedItem().toString();
-        JOptionPane.showMessageDialog(this, subject + subman.getSubjectID(subject));
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        LocalDate date = LocalDate.now();
-        JOptionPane.showMessageDialog(null, date);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        homeTabbedPane.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1162,14 +1131,15 @@ public class TutorGUI extends javax.swing.JFrame {
     public javax.swing.JLabel accIDHolder;
     private javax.swing.JLabel accIDLbl;
     private javax.swing.JLabel addressLbl;
-    private javax.swing.JTextField addressTxt;
+    public javax.swing.JTextField addressTxt;
     private javax.swing.JPanel attendeesPanel;
     private javax.swing.JLabel bioLbl;
-    private javax.swing.JTextArea bioTxt;
+    public javax.swing.JTextArea bioTxt;
     private javax.swing.JPanel bottomBar;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel changePassLbl;
+    private javax.swing.JButton changePicBtn;
     private javax.swing.JLabel closeIcon1;
     private javax.swing.JPanel closePanel;
     private javax.swing.JPanel commTab;
@@ -1180,8 +1150,9 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JButton csSideBarBtn;
     public javax.swing.JLabel dateJoinedLbl;
     private javax.swing.JLabel dateLbl;
+    public javax.swing.JLabel dateNowLbl;
     private javax.swing.JButton discardProfileBtn;
-    public javax.swing.JSpinner durationSpinner;
+    private javax.swing.JSpinner durationSpinner;
     private javax.swing.JButton editProfileBtn;
     private javax.swing.JLabel emailLbl;
     public javax.swing.JTextField emailTxt;
@@ -1191,15 +1162,16 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1216,7 +1188,6 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel profilePanel;
     private javax.swing.JPanel profilePicture;
     private javax.swing.JPanel profileTab;
-    private javax.swing.JButton progressTrackBtn;
     public javax.swing.JTextField realNameTxt;
     private javax.swing.JButton saveProfileBtn;
     private javax.swing.JLabel schedLbl;
@@ -1229,15 +1200,13 @@ public class TutorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel settingsIcon;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel settingsTab;
-    private javax.swing.JButton shSideBarBtn;
     private javax.swing.JLabel subject2Lbl;
     public javax.swing.JComboBox<String> subjectComboBox;
     private javax.swing.JLabel subjectLbl;
-    private javax.swing.JPanel summaryPanel;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JLabel titlePaneLbl;
     private javax.swing.JPanel titlePanel;
-    public javax.swing.JTable tutorSessionsTable;
+    private javax.swing.JTable tutorSessionsTable;
     private javax.swing.JPanel tutorSidePanel;
     private javax.swing.JLabel usernameLbl;
     public javax.swing.JTextField usernameTxt;

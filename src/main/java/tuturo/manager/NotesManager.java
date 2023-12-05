@@ -4,10 +4,20 @@
  */
 package tuturo.manager;
 
+import java.io.File;
+import java.util.Stack;
+import java.util.LinkedList;
+
 /**
  *
  * @author Khelvin
  */
 public class NotesManager {
     
+    LinkedList recentNotes = new LinkedList();
+    
+    public LinkedList showRecentNotes(LinkedList recentNotes, File textFile) {
+        
+        return recentNotes;
+    }
 }

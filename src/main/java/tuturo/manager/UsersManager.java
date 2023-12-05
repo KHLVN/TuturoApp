@@ -15,13 +15,13 @@ import tuturo.model.Accounts;
 public class UsersManager {
     MSSQLConnection msql = new MSSQLConnection();
     public ResultSet rs, rs1;
+    LocalDate date = LocalDate.now();
+    String sDate = date.toString();
     
     
     public void registerUser(String fullName, String username, String phone_no, String email, String role, String password){
         
         try {
-            LocalDate date = LocalDate.now();
-            String sDate = date.toString();
             String insertQuery;
             Statement statement;
             
@@ -62,7 +62,8 @@ public class UsersManager {
         msql.connect();
         StudentGUI st = new StudentGUI();
         TutorGUI tu = new TutorGUI();
-        String loginQuery = "SELECT * FROM Accounts WHERE Accounts.username='"+username+"' AND password='"+password+"'";
+        NotesManager nm = new NotesManager();
+        String loginQuery = "SELECT * FROM Accounts, Users WHERE Users.username='"+username+"' AND password='"+password+"'";
         String loginQuery1 = "SELECT * FROM Users WHERE username='"+username+"'";
         
         try {
@@ -85,6 +86,7 @@ public class UsersManager {
                         st.usernameTxt.setText(rs.getString("username"));
                         st.realNameTxt.setText(rs1.getString("real_name"));
                         st.emailTxt.setText(rs1.getString("email"));
+                        st.addressTxt.setText(rs1.getString("address"));
                         st.accIDHolder.setText(rs.getString("account_id"));
                         st.dateJoinedLbl.setText(rs.getString("date_created"));
                         return false;
@@ -100,8 +102,10 @@ public class UsersManager {
                         tu.usernameTxt.setText(rs.getString("username"));
                         tu.realNameTxt.setText(rs1.getString("real_name"));
                         tu.emailTxt.setText(rs1.getString("email"));
+                        tu.addressTxt.setText(rs1.getString("address"));
                         tu.accIDHolder.setText(rs.getString("account_id"));
                         tu.dateJoinedLbl.setText(rs.getString("date_created"));
+                        tu.dateNowLbl.setText(sDate);
                         return false;
                 }
             }
@@ -147,6 +151,7 @@ public class UsersManager {
                         rs.getString("account_type"),
                         rs.getString("contact_number"),
                         rs.getString("email"),
+                        rs.getString("address"),
                         rs.getString("password"));
                 AccList.add(ac);
             }
@@ -157,73 +162,3 @@ public class UsersManager {
         return AccList;
     }
 }
-    
-//    public void loginUser1(String username, String password, String role) {
-//        
-//        LoginForm logForm = new LoginForm();
-//        switch (role) {
-//            case "Student" -> {
-//                try {
-//
-//                    msql.connect();
-//                    Statement statement = msql.connect().createStatement();
-//                    String query = "SELECT * FROM Student WHERE username='"+username+"' AND password='"+password+"'";
-//
-//                    rset = statement.executeQuery(query);
-//
-//                    if(rSet.next()) {
-//                        logForm.setVisible(false);
-//                        new StudentGUI().setVisible(true);
-//                    }
-//                    else {
-//                        JOptionPane.showMessageDialog(null, "Incorrect Username or Password.");
-//                    }
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//
-//            case "Tutor" -> {
-//                try {
-//
-//                    msql.connect();
-//                    Statement statement = msql.connect().createStatement();
-//                    String query = "SELECT * FROM Tutor WHERE username='"+username+"' AND password='"+password+"'";
-//
-//                    ResultSet rSet = statement.executeQuery(query);
-//
-//                    if(rSet.next()) {
-//                        logForm.setVisible(false);
-//                        new TutorGUI().setVisible(true);
-//                    }
-//                    else {
-//                        JOptionPane.showMessageDialog(null, "Incorrect Username or Password.");
-//                    }
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//
-//            default -> System.out.println(":(( ROLE NOT FOUND");
-//        }
-//    }
-//
-//
-
-//    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-//        // TODO add your handling code here:
-//        
-//        ConnectionsMYSQL cm = new ConnectionsMYSQL();
-//        System.out.println("Checking connection: ");
-//        
-//        String emp_name=this.txt_name.getText();
-//        String emp_address=this.txt_address.getText();
-//        String emp_bdate=this.txt_bdate.getText();
-//        Employee emp = new Employee(1,"","","");
-//        //emp.emp_id=1;
-//        //pt.createSalary(2,25,1500);
-//        emp.createEmployee(emp_name, emp_address, emp_bdate);
-//        
-//        new EmployeeListForm().setVisible(true);
-//        setVisible(false);
-//    }

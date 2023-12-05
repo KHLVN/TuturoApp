@@ -18,10 +18,11 @@ public class Accounts {
     public String account_type;
     public String contact_number;
     public String email;
+    public String address;
     public String password;
     ArrayList<Accounts> accountList = new ArrayList<>();
     
-    public Accounts(int account_id, int user_id, String real_name, String username, String account_type, String contact_number, String email, String password) {
+    public Accounts(int account_id, int user_id, String real_name, String username, String account_type, String contact_number, String email, String address, String password) {
         this.account_id = account_id;
         this.user_id = user_id;
         this.real_name = real_name;
@@ -29,6 +30,7 @@ public class Accounts {
         this.account_type = account_type;
         this.contact_number = contact_number;
         this.email = email;
+        this.address = address;
         this.password = password;
     }
 }

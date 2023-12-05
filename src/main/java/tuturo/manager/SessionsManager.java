@@ -10,9 +10,13 @@ package tuturo.manager;
  */
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import tuturo.database.MSSQLConnection;
 import tuturo.gui.TutorGUI;
 import tuturo.model.HostSessions;
@@ -25,8 +29,6 @@ public class SessionsManager {
     public int subjectID;
     public String subjectName;
     public LocalDate date = LocalDate.now();
-    TutorGUI tg = new TutorGUI();
-    SubjectsManager subman = new SubjectsManager();
     
     public void showCreatedSession(){
         
@@ -61,15 +63,16 @@ public class SessionsManager {
         try {
             msql.connect();
             Statement st = msql.connect().createStatement();
-
-            String query = "SELECT * FROM Session";
+            Statement st1 = msql.connect().createStatement();
+            TutorGUI tu = new TutorGUI();
+            String query = "SELECT * FROM Session INNER JOIN Users ON Session.host_id = Users.user_id";
             
             ResultSet rs = st.executeQuery(query);
 
             while(rs.next()) {
                 Sessions ss = new Sessions(rs.getInt("session_id"), 
                          rs.getInt("host_id"), rs.getString("real_name"), 
-                         rs.getInt("subject_id"), rs.getString("subject_name"), 
+                         rs.getInt("subject_id"), rs.getString("session_name"), 
                          rs.getDate("session_time_created"));
                 sList.add(ss);
             }
@@ -106,9 +109,7 @@ public class SessionsManager {
     public ArrayList<Sessions> searchList(String search) {
         ArrayList<Sessions> serichList = new ArrayList<>();
         try {
-            String searchQuery = "SELECT * FROM Accounts, Users, Session "
-                                + "WHERE (Accounts.account_id = Session.host_id, OR Accounts.account_type = 'Tutor') "
-                                + "AND Accounts.real_name LIKE '%"+search+"%'";
+            String searchQuery = "SELECT * FROM Accounts, Users, Session WHERE (Accounts.account_id = Session.host_id OR Accounts.account_type = 'Tutor') AND Users.real_name LIKE '%"+search+"%'";
             
             Statement st = msql.connect().createStatement();
             ResultSet rs = st.executeQuery(searchQuery);
@@ -125,5 +126,34 @@ public class SessionsManager {
             Logger.getLogger(SessionsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return serichList;
+    }
+    public DefaultPieDataset createDataset() {
+        var dataset = new DefaultPieDataset();
+        String query = "SELECT * FROM Session";
+            try{
+                PreparedStatement statement = msql.connect().prepareStatement(query);
+                ResultSet rs = statement.executeQuery();
+                int duration;
+                String sessionMonth;
+                while(rs.next()) { 
+                    sessionMonth = Month.of(rs.getInt("session_time_created")).name();
+                    duration = rs.getInt("duration");
+                    dataset.setValue(sessionMonth, duration);
+                }
+            }
+            catch(SQLException e) {
+            }       
+
+       return dataset;
+    }
+    
+    public JFreeChart createChart(DefaultPieDataset dataset) {
+
+        JFreeChart pieChart = ChartFactory.createPieChart(
+                "\n\n Session Report 2023",
+                dataset,
+                true, true, false);
+
+        return pieChart;
     }
 }
